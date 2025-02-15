@@ -17,28 +17,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
-    private val _movies = MutableLiveData<Resource<List<Movie>>>()
-    val movies: LiveData<Resource<List<Movie>>> get() = _movies
-
+    val movies: LiveData<Resource<List<Movie>>> = repository.movies
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()
 
     init {
-        fetchMovies()
-    }
-
-    private fun fetchMovies() = viewModelScope.launch {
-        repository.movies.observeForever { _movies.postValue(it) }
+        viewModelScope.launch {
+            repository.refreshMovies() // ✅ Ensure movies load initially
+        }
     }
 
     fun updateFavorite(movie: Movie) = viewModelScope.launch(Dispatchers.IO) {
         val updatedMovie = movie.copy(favorite = !movie.favorite) // Toggle favorite status
         repository.updateFavorite(updatedMovie)
-        val updatedMovies = repository.getAllMoviesFromDB()
-        withContext(Dispatchers.Main) {
-            _movies.postValue(Resource.success(updatedMovies))
-        }
+        repository.refreshMovies() // ✅ Ensure UI updates across all fragments
     }
 }
+
 
 
 //    fun updateFavorite(movieId: Int, isFavorite: Boolean) = viewModelScope.launch(Dispatchers.IO) {

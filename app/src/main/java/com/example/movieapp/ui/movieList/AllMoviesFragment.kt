@@ -51,7 +51,4 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
             }
         }
     }
-
 }
-
-
