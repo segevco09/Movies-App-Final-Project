@@ -15,7 +15,7 @@ class MovieAdapter(private val onMovieClick: (Movie) -> Unit) : ListAdapter<Movi
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(movie: Movie) {
             itemView.findViewById<TextView>(R.id.titleTextView).text = movie.title
-//            itemView.findViewById<TextView>(R.id.releaseDateTextView).text = movie.release_date
+            itemView.findViewById<TextView>(R.id.releaseDateTextView).text = movie.release_date
             Glide.with(itemView).load("https://image.tmdb.org/t/p/w500" + movie.posterPath).into(itemView.findViewById(R.id.posterImageView))
             itemView.setOnClickListener { onMovieClick(movie) }
         }

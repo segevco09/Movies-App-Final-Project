@@ -29,6 +29,15 @@
             android:paddingStart="8dp"/>
 
         <TextView
+            android:id="@+id/releaseDateTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingStart="8dp"/>
+
+        <TextView
             android:id="@+id/overviewTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,3 +49,5 @@
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+
+
