@@ -14,6 +14,12 @@ interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<Movie>)
+
+    @Query("SELECT * FROM movies WHERE favorite = 1")
+    fun getFavoriteMovies(): LiveData<List<Movie>> // ✅ Get all favorite movies
+
+    @Query("UPDATE movies SET favorite = :isFavorite WHERE id = :movieId")
+    suspend fun updateFavorite(movieId: Int, isFavorite: Boolean) // ✅ Mark/unmark as favorite
 }
 
 

@@ -15,7 +15,9 @@ import com.example.movieapp.utils.Success
 import com.example.movieapp.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.data.local.Movie
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 @AndroidEntryPoint
 class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
@@ -25,8 +27,20 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = MovieAdapter { navigateToDetail(it) }
-        view.findViewById<RecyclerView>(R.id.recyclerView).adapter = adapter
+        adapter = MovieAdapter({ movie ->
+            findNavController().navigate(R.id.action_allMoviesFragment_to_movieDetailFragment, Bundle().apply { putParcelable("movie", movie) })
+        }) { movie ->
+            viewModel.updateFavorite(movie.id, !movie.favorite)
+        }
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        val favoriteButton = view.findViewById<FloatingActionButton>(R.id.favoritesButton)
+        favoriteButton.setOnClickListener {
+            findNavController().navigate(R.id.action_allMoviesFragment_to_favoriteMoviesFragment)
+        }
 
         viewModel.movies.observe(viewLifecycleOwner) {
             when (it.status) {
@@ -38,9 +52,6 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         }
     }
 
-    private fun navigateToDetail(movie: Movie) {
-        findNavController().navigate(R.id.action_allMoviesFragment_to_movieDetailFragment, bundleOf("movie" to movie))
-    }
 }
 
 

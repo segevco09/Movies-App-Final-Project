@@ -9,6 +9,11 @@
         android:name="com.example.movieapp.ui.movieList.AllMoviesFragment"
         android:label="All Movies"
         tools:layout="@layout/fragment_all_movies">
+
+        <action
+            android:id="@+id/action_allMoviesFragment_to_favoriteMoviesFragment"
+            app:destination="@id/favoriteMoviesFragment" />
+
         <action
             android:id="@+id/action_allMoviesFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
@@ -24,5 +29,16 @@
             app:argType="com.example.movieapp.data.local.Movie"
             app:nullable="false" />
     </fragment>
+
+    <fragment
+        android:id="@+id/favoriteMoviesFragment"
+        android:name="com.example.movieapp.ui.userFavorite.FavoriteMoviesFragment"
+        android:label="Favorite Movies"
+        tools:layout="@layout/fragment_favorite_movies">
+        <action
+            android:id="@+id/action_favoriteMoviesFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+    </fragment>
+
 
 </navigation>

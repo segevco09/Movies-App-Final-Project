@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Movie::class], version = 3, exportSchema = false) // ✅ Increased version
+@Database(entities = [Movie::class], version = 4, exportSchema = false) // ✅ Increased version
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 
@@ -22,7 +22,7 @@ abstract class MovieDatabase : RoomDatabase() {
                     MovieDatabase::class.java,
                     "movie_db"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3) // ✅ Added new migration
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4) // ✅ Added new migration
                     .build()
                     .also { instance = it }
             }
@@ -55,6 +55,12 @@ abstract class MovieDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE movies ADD COLUMN popularity REAL NOT NULL DEFAULT 0.0")
                 database.execSQL("ALTER TABLE movies ADD COLUMN vote_average REAL NOT NULL DEFAULT 0.0")
                 database.execSQL("ALTER TABLE movies ADD COLUMN vote_count INTEGER NOT NULL DEFAULT 0")
+            }
+        }
+        // ✅ Migration from version 3 to 4
+        private val MIGRATION_3_4 = object : Migration(3, 4) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE movies ADD COLUMN favorite INTEGER NOT NULL DEFAULT 0")
             }
         }
     }

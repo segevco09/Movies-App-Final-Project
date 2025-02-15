@@ -59,6 +59,16 @@
                 android:ellipsize="end"
                 android:textColor="@android:color/black"
                 android:layout_marginTop="6dp"/>
+
+            <ImageButton
+                android:id="@+id/favoriteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_favorite_border_24"
+                android:background="?attr/selectableItemBackground"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -3,6 +3,8 @@ package com.example.movieapp.ui.movieList
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,15 +13,30 @@ import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.ItemMovieBinding
 
-class MovieAdapter(private val onMovieClick: (Movie) -> Unit) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
+class MovieAdapter(private val onMovieClick: (Movie) -> Unit, private val onFavoriteClick: (Movie) -> Unit) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
+        private val releaseDateTextView: TextView = itemView.findViewById(R.id.releaseDateTextView)
+        private val posterImageView: ImageView = itemView.findViewById(R.id.posterImageView)
+        private val favoriteButton: ImageButton = itemView.findViewById(R.id.favoriteButton)
+
         fun bind(movie: Movie) {
-            itemView.findViewById<TextView>(R.id.titleTextView).text = movie.title
-            itemView.findViewById<TextView>(R.id.releaseDateTextView).text = movie.release_date
-            Glide.with(itemView).load("https://image.tmdb.org/t/p/w500" + movie.posterPath).into(itemView.findViewById(R.id.posterImageView))
+            titleTextView.text = movie.title
+            releaseDateTextView.text = movie.release_date
+            Glide.with(itemView).load("https://image.tmdb.org/t/p/w500" + movie.posterPath).into(posterImageView)
+            favoriteButton.setImageResource(if (movie.favorite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24)
+
             itemView.setOnClickListener { onMovieClick(movie) }
+            favoriteButton.setOnClickListener { onFavoriteClick(movie) }
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false))
-    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) = holder.bind(getItem(position))
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_movie, parent, false)
+        return MovieViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
 }
