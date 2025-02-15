@@ -30,7 +30,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         adapter = MovieAdapter({ movie ->
             findNavController().navigate(R.id.action_allMoviesFragment_to_movieDetailFragment, Bundle().apply { putParcelable("movie", movie) })
         }) { movie ->
-            viewModel.updateFavorite(movie.id, !movie.favorite)
+            viewModel.updateFavorite(movie)
         }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)

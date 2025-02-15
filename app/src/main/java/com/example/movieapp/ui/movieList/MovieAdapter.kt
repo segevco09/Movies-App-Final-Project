@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
-import com.example.movieapp.databinding.ItemMovieBinding
+
 
 class MovieAdapter(private val onMovieClick: (Movie) -> Unit, private val onFavoriteClick: (Movie) -> Unit) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,11 +24,19 @@ class MovieAdapter(private val onMovieClick: (Movie) -> Unit, private val onFavo
             titleTextView.text = movie.title
             releaseDateTextView.text = movie.release_date
             Glide.with(itemView).load("https://image.tmdb.org/t/p/w500" + movie.posterPath).into(posterImageView)
+
+            // Update favorite button appearance
             favoriteButton.setImageResource(if (movie.favorite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24)
 
             itemView.setOnClickListener { onMovieClick(movie) }
-            favoriteButton.setOnClickListener { onFavoriteClick(movie) }
+
+            favoriteButton.setOnClickListener {
+                val newFavoriteStatus = !movie.favorite
+                onFavoriteClick(movie) // Pass the updated movie
+                favoriteButton.setImageResource(if (newFavoriteStatus) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24) // Update UI instantly
+            }
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
