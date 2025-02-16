@@ -32,16 +32,25 @@
             app:layout_constraintEnd_toEndOf="@id/frame_for_frag"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtubePlayerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
         <ImageView
             android:id="@+id/posterImageView"
             android:layout_width="240dp"
             android:layout_height="320dp"
-            android:layout_margin="35dp"
-            android:foregroundGravity="center"
+            android:layout_marginTop="16dp"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titleTextView" />
+            app:layout_constraintTop_toBottomOf="@id/youtubePlayerView" />
+
 
         <TextView
             android:id="@+id/overviewTextView"

@@ -104,6 +104,9 @@ dependencies {
 
     implementation("androidx.cardview:cardview:1.0.0")
 
+    // Youtube's player
+    implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
 
 
 }
