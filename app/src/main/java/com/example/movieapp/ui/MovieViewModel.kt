@@ -19,7 +19,11 @@ import javax.inject.Inject
 class MovieViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
     val movies: LiveData<Resource<List<Movie>>> = repository.movies
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()
+    val upcomingMovies: LiveData<Resource<List<Movie>>> = repository.upcomingMovies
 
+    fun fetchUpcomingMovies() = viewModelScope.launch {
+        repository.fetchUpcomingMovies()
+    }
     init {
         viewModelScope.launch {
             repository.refreshMovies() // ✅ Ensure movies load initially

@@ -20,9 +20,25 @@ class MovieRepository @Inject constructor(
     private val _movies = MutableLiveData<Resource<List<Movie>>>()
     val movies: LiveData<Resource<List<Movie>>> get() = _movies
 
+    private val _upcomingMovies = MutableLiveData<Resource<List<Movie>>>()
+    val upcomingMovies: LiveData<Resource<List<Movie>>> get() = _upcomingMovies
     suspend fun refreshMovies() {
         val moviesFromDB = movieDao.getAllMoviesList()
         _movies.postValue(Resource.success(moviesFromDB))
+    }
+
+    suspend fun fetchUpcomingMovies() {
+        _upcomingMovies.postValue(Resource.loading())
+        try {
+            val response = apiService.getUpcomingMovies("ab31dd0cb696f61108161a49f49d3c02")
+            if (response.movies.isNotEmpty()) {
+                _upcomingMovies.postValue(Resource.success(response.movies))
+            } else {
+                _upcomingMovies.postValue(Resource.error("No upcoming movies found"))
+            }
+        } catch (e: Exception) {
+            _upcomingMovies.postValue(Resource.error("Failed to fetch upcoming movies: ${e.message}"))
+        }
     }
 
     fun getFavoriteMovies(): LiveData<List<Movie>> = movieDao.getFavoriteMovies()

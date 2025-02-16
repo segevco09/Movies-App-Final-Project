@@ -8,6 +8,10 @@ interface MovieApiService {
     suspend fun getAllMovies(
         @Query("api_key") apiKey: String = "ab31dd0cb696f61108161a49f49d3c02"
     ): MovieResponse
+    @GET("upcoming")
+    suspend fun getUpcomingMovies(
+        @Query("api_key") apiKey: String
+    ): MovieResponse
 }
 
 

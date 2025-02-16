@@ -11,10 +11,9 @@ import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.FragmentAllMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
-import com.example.movieapp.utils.Loading
-import com.example.movieapp.utils.Resource
-import com.example.movieapp.utils.Success
 import com.example.movieapp.utils.autoCleared
+import com.example.movieapp.utils.Resource
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -41,17 +40,23 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
+        binding.upcomingButton.setOnClickListener {
+            findNavController().navigate(R.id.action_allMoviesFragment_to_upcomingMoviesFragment)
+        }
+
+
         binding.favoritesButton.setOnClickListener {
             findNavController().navigate(R.id.action_allMoviesFragment_to_favoriteMoviesFragment)
         }
 
         viewModel.movies.observe(viewLifecycleOwner) {
-            when (it.status) {
-                is Success -> adapter.submitList(it.status.data)
-                is com.example.movieapp.utils.Error ->
-                    Toast.makeText(context, it.status.message, Toast.LENGTH_SHORT).show()
-                is Loading -> {/* Show loading state */}
+            when (it) {  // ✅ Remove ".status"
+                is com.example.movieapp.utils.Resource.Success -> adapter.submitList(it.data)
+                is com.example.movieapp.utils.Resource.Error ->
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                is com.example.movieapp.utils.Resource.Loading -> {/* Show loading state */}
             }
+
         }
     }
 
