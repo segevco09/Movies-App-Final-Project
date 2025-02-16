@@ -2,30 +2,32 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="160dp"
     android:layout_margin="8dp"
     app:cardCornerRadius="16dp"
     app:cardElevation="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="12dp"
-        android:gravity="center_vertical">
+        android:padding="12dp">
 
         <!-- Movie Poster -->
         <ImageView
             android:id="@+id/posterImageView"
             android:layout_width="120dp"
-            android:layout_height="180dp"
-            android:scaleType="centerCrop"
+            android:layout_height="150dp"
             android:layout_marginEnd="12dp"
-            app:cornerRadius="12dp"/>
+            android:scaleType="fitCenter"
+            app:cornerRadius="12dp" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -34,38 +36,36 @@
                 android:id="@+id/titleTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:ellipsize="end"
                 android:textColor="@android:color/black"
-                android:maxLines="2"
-                android:ellipsize="end"/>
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <!-- Release Date -->
             <TextView
                 android:id="@+id/releaseDateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
+                android:layout_marginTop="4dp"
                 android:textColor="@android:color/darker_gray"
-                android:layout_marginTop="4dp"/>
+                android:textSize="18sp" />
 
             <!-- Movie Overview -->
             <TextView
-                android:id="@+id/overviewTextView"
+                android:id="@+id/avgRateTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:maxLines="3"
+                android:layout_marginTop="6dp"
                 android:ellipsize="end"
-                android:textColor="@android:color/black"
-                android:layout_marginTop="6dp"/>
+                android:textColor="@android:color/darker_gray"
+                android:textSize="14sp" />
 
             <ImageButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/baseline_favorite_border_24"
+                android:layout_height="match_parent"
                 android:background="?attr/selectableItemBackground"
+                android:src="@drawable/baseline_favorite_border_24"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/more_faded_gradient_background"
     tools:context=".ui.userFavorite.FavoriteMoviesFragment">
 
     <!-- RecyclerView for Favorite Movies -->
@@ -14,13 +15,12 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:listitem="@layout/item_movie"/>
 
-    <!-- Empty View Message (Shown when no favorites exist) -->
     <TextView
         android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="No favorite movies yet."
-        android:textSize="18sp"
+        android:text="There are no favorite movies yet"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
