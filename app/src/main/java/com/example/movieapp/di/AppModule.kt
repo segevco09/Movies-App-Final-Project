@@ -6,6 +6,7 @@ import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.data.local.MovieDao
 import com.example.movieapp.data.local.MovieDatabase
 import com.example.movieapp.data.remote.MovieApiService
+import com.example.movieapp.data.remote.MovieRemoteDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,10 +50,18 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideMovieRemoteDataSource(
+        movieApiService: MovieApiService
+    ): MovieRemoteDataSource {
+        return MovieRemoteDataSource(movieApiService)
+    }
+
+    @Singleton
+    @Provides
     fun provideMovieRepository(
-        apiService: MovieApiService,
+        remoteDataSource: MovieRemoteDataSource,
         movieDao: MovieDao
     ): MovieRepository {
-        return MovieRepository(apiService, movieDao)
+        return MovieRepository(remoteDataSource, movieDao)
     }
 }

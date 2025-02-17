@@ -52,7 +52,6 @@ class UpcomingMoviesFragment : Fragment() {
             }
         }
 
-        viewModel.fetchUpcomingMovies() // Fetch upcoming movies when fragment starts
     }
 
     override fun onDestroyView() {

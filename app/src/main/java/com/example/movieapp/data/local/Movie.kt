@@ -22,6 +22,7 @@ data class Movie(
     val popularity: Double,
     val vote_average: Double,
     val vote_count: Int,
+    @SerializedName("poster_path") val posterPath: String,
     var favorite: Boolean = false,
-    @SerializedName("poster_path") val posterPath: String
+    var isUpcoming: Boolean = false  // ✅ New property to classify upcoming movies
 ) : Parcelable

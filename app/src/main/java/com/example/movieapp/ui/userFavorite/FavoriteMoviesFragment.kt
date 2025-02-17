@@ -32,7 +32,7 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                 )
             },
             onFavoriteClick = { movie ->
-                viewModel.updateFavorite(movie)
+                viewModel.updateFavorite(movie) // ✅ Toggle favorite status
             }
         )
 

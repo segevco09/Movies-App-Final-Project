@@ -14,20 +14,17 @@ interface MovieDao {
     @Query("SELECT * FROM movies")
     fun getAllMovies(): LiveData<List<Movie>>
 
+    @Query("SELECT * FROM movies WHERE isUpcoming = 1") // ✅ Fetch only upcoming movies
+    fun getUpcomingMovies(): LiveData<List<Movie>>
+
     @Query("SELECT * FROM movies WHERE favorite = 1")
-    fun getFavoriteMovies(): LiveData<List<Movie>> // ✅ Correctly fetch favorite movies
+    fun getFavoriteMovies(): LiveData<List<Movie>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<Movie>)
 
     @Update
-    suspend fun updateMovie(movie : Movie)
-
-    @Query("SELECT EXISTS(SELECT 1 FROM movies WHERE id = :movieId AND favorite = 1)")
-    suspend fun isMovieFavorite(movieId: Int): Boolean
-
-    @Query("SELECT * FROM movies")
-    suspend fun getAllMoviesList(): List<Movie> // ✅ Fetch movies synchronously
-
-
+    suspend fun updateMovie(movie: Movie)
 }
+
+
