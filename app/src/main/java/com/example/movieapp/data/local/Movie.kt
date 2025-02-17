@@ -5,6 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
+import java.util.Date
 
 
 @Entity(tableName = "movies")
@@ -24,5 +25,6 @@ data class Movie(
     val vote_count: Int,
     @SerializedName("poster_path") val posterPath: String,
     var favorite: Boolean = false,
-    var isUpcoming: Boolean = false  // ✅ New property to classify upcoming movies
+    var isUpcoming: Boolean = false,
+    var isPopular: Boolean = false
 ) : Parcelable

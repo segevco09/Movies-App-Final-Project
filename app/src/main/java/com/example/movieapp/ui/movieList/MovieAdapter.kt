@@ -26,22 +26,26 @@ class MovieAdapter(
                 .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)
                 .into(binding.posterImageView)
 
-            // Update favorite button appearance
-            binding.favoriteButton.setImageResource(
-                if (movie.favorite) R.drawable.baseline_favorite_24
-                else R.drawable.baseline_favorite_border_24
-            )
+            // ✅ Set the correct favorite icon
+            updateFavoriteIcon(movie.favorite)
 
             binding.root.setOnClickListener { onMovieClick(movie) }
 
             binding.favoriteButton.setOnClickListener {
-                val newFavoriteStatus = !movie.favorite
-                onFavoriteClick(movie) // Pass the updated movie
-                binding.favoriteButton.setImageResource(
-                    if (newFavoriteStatus) R.drawable.baseline_favorite_24
-                    else R.drawable.baseline_favorite_border_24
-                ) // Update UI instantly
+                val updatedMovie = movie.copy(favorite = !movie.favorite) // ✅ Create updated movie object
+                onFavoriteClick(updatedMovie) // ✅ Send to ViewModel (updates Room)
+
+                // ✅ Immediately update the UI based on new favorite status
+                updateFavoriteIcon(updatedMovie.favorite)
             }
+        }
+
+        // ✅ Function to update the favorite icon appearance
+        private fun updateFavoriteIcon(isFavorite: Boolean) {
+            binding.favoriteButton.setImageResource(
+                if (isFavorite) R.drawable.baseline_favorite_24
+                else R.drawable.baseline_favorite_border_24
+            )
         }
     }
 

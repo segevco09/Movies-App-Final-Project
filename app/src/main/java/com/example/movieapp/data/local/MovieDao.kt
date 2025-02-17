@@ -11,14 +11,17 @@ import androidx.room.Update
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movies")
-    fun getAllMovies(): LiveData<List<Movie>>
+    @Query("SELECT * FROM movies WHERE isPopular = 1")
+    fun getPopularMovies(): LiveData<List<Movie>>
 
-    @Query("SELECT * FROM movies WHERE isUpcoming = 1") // ✅ Fetch only upcoming movies
+    @Query("SELECT * FROM movies WHERE isUpcoming = 1")
     fun getUpcomingMovies(): LiveData<List<Movie>>
 
     @Query("SELECT * FROM movies WHERE favorite = 1")
     fun getFavoriteMovies(): LiveData<List<Movie>>
+
+    @Query("SELECT * FROM movies WHERE id = :movieId")
+    suspend fun getMovieById(movieId: Int): Movie?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<Movie>)
@@ -26,5 +29,3 @@ interface MovieDao {
     @Update
     suspend fun updateMovie(movie: Movie)
 }
-
-

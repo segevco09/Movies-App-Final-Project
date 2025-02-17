@@ -11,17 +11,18 @@ fun <T, A> performFetchingAndSaving(
     localDbSave: suspend (A) -> Unit
 ): LiveData<Resource<T>> = liveData(Dispatchers.IO) {
 
-    emit(Resource.loading()) // ✅ Notify UI that loading started
+    emit(Resource.loading()) // ✅ הצגת מצב טעינה ל-UI
 
     val source = localDbFetch().map { Resource.success(it) }
-    emitSource(source) // ✅ Show local data first
+    emitSource(source) // ✅ הצגת נתונים מקומיים תחילה
 
-    val fetchResource = remoteDbFetch() // ✅ Fetch remote data
+    val fetchResource = remoteDbFetch() // ✅ קריאה ל-API
 
     if (fetchResource is Resource.Success) {
-        localDbSave(fetchResource.data!!) // ✅ Save data if successful
+        val newData = fetchResource.data!!
+        localDbSave(newData) // ✅ שמירה ל-DB (כעת שומר נתונים קיימים)
     } else if (fetchResource is Resource.Error) {
         emit(Resource.error(fetchResource.message!!))
-        emitSource(source) // ✅ Keep showing local data
+        emitSource(source) // ✅ הצגת נתונים מקומיים במקרה של שגיאה
     }
 }

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.R
 import com.example.movieapp.ui.MovieViewModel
 import com.example.movieapp.ui.movieList.MovieAdapter
+import com.example.movieapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -36,12 +37,14 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
             }
         )
 
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
 
+        // ✅ Observe favoriteMovies directly from Room
         viewModel.favoriteMovies.observe(viewLifecycleOwner) { movies ->
             adapter.submitList(movies)
-            emptyTextView.visibility = if (movies.isEmpty()) View.VISIBLE else View.GONE
+            emptyTextView.visibility = if (movies.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
+
     }
 }

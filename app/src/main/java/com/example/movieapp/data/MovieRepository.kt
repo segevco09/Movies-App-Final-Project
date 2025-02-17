@@ -16,42 +16,84 @@ class MovieRepository @Inject constructor(
 ) {
 
     fun getPopularMovies(): LiveData<Resource<List<Movie>>> = performFetchingAndSaving(
-        { localDataSource.getAllMovies() },  // ✅ Fetch all movies
-        { remoteDataSource.getPopularMovies() },  // ✅ Fetch from API if needed
+        { localDataSource.getPopularMovies() },
+        { remoteDataSource.getPopularMovies() },
         { movies ->
-            movies.movies.forEach { it.isUpcoming = false } // ✅ Ensure these are NOT upcoming
-            localDataSource.insertMovies(movies.movies)
+            val updatedMovies = movies.movies.map { newMovie ->
+                val existingMovie = localDataSource.getMovieById(newMovie.id) // ✅ בדיקה אם קיים
+
+                newMovie.copy(
+                    isPopular = true,
+                    isUpcoming = existingMovie?.isUpcoming ?: false, // ✅ שמירת `isUpcoming`
+                    favorite = existingMovie?.favorite ?: false // ✅ שמירת `favorite`
+                )
+            }
+            localDataSource.insertMovies(updatedMovies)
         }
     )
 
+
     fun getUpcomingMovies(): LiveData<Resource<List<Movie>>> = performFetchingAndSaving(
-        { localDataSource.getUpcomingMovies() }, // ✅ Fetch from local DB first
-        { remoteDataSource.getUpcomingMovies() }, // ✅ Fetch from API only if needed
+        { localDataSource.getUpcomingMovies() },
+        { remoteDataSource.getUpcomingMovies() },
         { movies ->
-            movies.movies.forEach { it.isUpcoming = true } // ✅ Mark these as upcoming
-            localDataSource.insertMovies(movies.movies)
+            val updatedMovies = movies.movies.map { newMovie ->
+                val existingMovie = localDataSource.getMovieById(newMovie.id) // ✅ בדיקה אם קיים
+
+                newMovie.copy(
+                    isPopular = existingMovie?.isPopular ?: false, // ✅ שמירת `isPopular`
+                    isUpcoming = true,
+                    favorite = existingMovie?.favorite ?: false // ✅ שמירת `favorite`
+                )
+            }
+            localDataSource.insertMovies(updatedMovies)
         }
     )
+
 
     suspend fun fetchPopularMovies() {
         val result = remoteDataSource.getPopularMovies()
         if (result is Resource.Success) {
-            result.data!!.movies.forEach { it.isUpcoming = false } // ✅ Ensure these are NOT upcoming
-            localDataSource.insertMovies(result.data!!.movies)
+            val updatedMovies = result.data!!.movies.map { movie ->
+                val existingMovie = localDataSource.getMovieById(movie.id)
+                movie.copy(
+                    isPopular = true,
+                    isUpcoming = existingMovie?.isUpcoming ?: false, // ✅ Preserve `isUpcoming`
+                    favorite = existingMovie?.favorite ?: false // ✅ Preserve `favorite`
+                )
+            }
+            localDataSource.insertMovies(updatedMovies)
         }
     }
+
+
+
 
     suspend fun fetchUpcomingMovies() {
         val result = remoteDataSource.getUpcomingMovies()
         if (result is Resource.Success) {
-            result.data!!.movies.forEach { it.isUpcoming = true } // ✅ Mark as upcoming
-            localDataSource.insertMovies(result.data!!.movies)
+            val updatedMovies = result.data!!.movies.map { movie ->
+                val existingMovie = localDataSource.getMovieById(movie.id)
+                movie.copy(
+                    isPopular = existingMovie?.isPopular ?: false, // ✅ Preserve `isPopular`
+                    isUpcoming = true,
+                    favorite = existingMovie?.favorite ?: false // ✅ Preserve `favorite`
+                )
+            }
+            localDataSource.insertMovies(updatedMovies)
         }
     }
+
+
+
 
     fun getFavoriteMovies(): LiveData<List<Movie>> = localDataSource.getFavoriteMovies()
 
     suspend fun updateFavorite(movie: Movie) {
-        localDataSource.updateMovie(movie)
+        val existingMovie = localDataSource.getMovieById(movie.id) // ✅ Fetch the current movie from DB
+        if (existingMovie != null) {
+            localDataSource.updateMovie(existingMovie.copy(favorite = !existingMovie.favorite)) // ✅ Only toggle favorite
+        }
     }
+
 }

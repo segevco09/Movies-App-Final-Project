@@ -49,8 +49,8 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
             findNavController().navigate(R.id.action_allMoviesFragment_to_favoriteMoviesFragment)
         }
 
-        viewModel.movies.observe(viewLifecycleOwner) {
-            when (it) {  // ✅ Remove ".status"
+        viewModel.popularMovies.observe(viewLifecycleOwner) {
+        when (it) {  // ✅ Remove ".status"
                 is com.example.movieapp.utils.Resource.Success -> adapter.submitList(it.data)
                 is com.example.movieapp.utils.Resource.Error ->
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
