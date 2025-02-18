@@ -51,8 +51,8 @@ class UpcomingMoviesFragment : Fragment() {
                 is Resource.Loading -> {/* Show loading state */}
             }
         }
-
     }
+
     fun filterMovies(query: String) {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
 
@@ -63,7 +63,6 @@ class UpcomingMoviesFragment : Fragment() {
                 movie.title.contains(query, ignoreCase = true)
             }
         }
-
         adapter.submitList(filteredList)
     }
     override fun onDestroyView() {
