@@ -1,6 +1,7 @@
 package com.example.movieapp.ui.movieList
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,36 +12,81 @@ import com.example.movieapp.databinding.ItemMovieBinding
 
 class MovieAdapter(
     private val onMovieClick: (Movie) -> Unit,
-    private val onFavoriteClick: (Movie) -> Unit
+    private val onFavoriteClick: (Movie) -> Unit,
+    private val onEditClick: (Movie) -> Unit,
+    private val isFavoriteFragment: Boolean // Determines when to show edit button
 ) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
-            binding.titleTextView.text = movie.title
-            binding.releaseDateTextView.text = movie.release_date
-            binding.avgRateTextView.text = movie.vote_average.toString()
+            binding.titleEditText.setText(movie.title)
+            binding.releaseDateEditText.setText(movie.release_date)
+            binding.ratingEditText.setText(movie.vote_average.toString())
 
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)
                 .into(binding.posterImageView)
 
-            // ✅ Set the correct favorite icon
             updateFavoriteIcon(movie.favorite)
 
             binding.root.setOnClickListener { onMovieClick(movie) }
 
             binding.favoriteButton.setOnClickListener {
-                val updatedMovie = movie.copy(favorite = !movie.favorite) // ✅ Create updated movie object
-                onFavoriteClick(updatedMovie) // ✅ Send to ViewModel (updates Room)
-
-                // ✅ Immediately update the UI based on new favorite status
+                val updatedMovie = movie.copy(favorite = !movie.favorite)
+                onFavoriteClick(updatedMovie)
                 updateFavoriteIcon(updatedMovie.favorite)
+            }
+
+            // ✅ Show "Edit" button only in Favorite Fragment
+            binding.editButton.visibility = if (isFavoriteFragment) View.VISIBLE else View.GONE
+
+            binding.editButton.setOnClickListener {
+                enableEditing(movie, true) // ✅ Pass `movie` as a parameter
+            }
+
+            // ✅ Save changes when user clicks outside the EditText
+            binding.titleEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) saveChanges(movie)
+            }
+            binding.releaseDateEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) saveChanges(movie)
+            }
+            binding.ratingEditText.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) saveChanges(movie)
             }
         }
 
-        // ✅ Function to update the favorite icon appearance
+        // ✅ Pass `movie` as a parameter to fix the error
+        private fun enableEditing(movie: Movie, enable: Boolean) {
+            binding.titleEditText.isFocusable = enable
+            binding.titleEditText.isFocusableInTouchMode = enable
+
+            binding.releaseDateEditText.isFocusable = enable
+            binding.releaseDateEditText.isFocusableInTouchMode = enable
+
+            binding.ratingEditText.isFocusable = enable
+            binding.ratingEditText.isFocusableInTouchMode = enable
+
+            if (!enable) saveChanges(movie)
+        }
+
+        private fun saveChanges(movie: Movie) {
+            val newTitle = binding.titleEditText.text.toString()
+            val newReleaseDate = binding.releaseDateEditText.text.toString()
+            val newVoteAverage = binding.ratingEditText.text.toString().toDoubleOrNull() ?: movie.vote_average
+
+            if (newTitle != movie.title || newReleaseDate != movie.release_date || newVoteAverage != movie.vote_average) {
+                val updatedMovie = movie.copy(
+                    title = newTitle,
+                    release_date = newReleaseDate,
+                    vote_average = newVoteAverage
+                )
+                onEditClick(updatedMovie)
+            }
+        }
+
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             binding.favoriteButton.setImageResource(
                 if (isFavorite) R.drawable.baseline_favorite_24

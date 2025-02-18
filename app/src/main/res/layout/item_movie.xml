@@ -31,24 +31,26 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Movie Title -->
-            <TextView
-                android:id="@+id/titleTextView"
+            <!-- Movie Title (Editable) -->
+            <EditText
+                android:id="@+id/titleEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
                 android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:focusable="false"
+                android:background="@null"/>
 
-            <!-- Release Date -->
-            <TextView
-                android:id="@+id/releaseDateTextView"
+            <!-- Release Date (Editable) -->
+            <EditText
+                android:id="@+id/releaseDateEditText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:textColor="@android:color/darker_gray"
-                android:textSize="18sp" />
+                android:textSize="16sp"
+                android:focusable="false"
+                android:background="@null"/>
 
             <!-- Rating Layout with Star Icon -->
             <LinearLayout
@@ -65,14 +67,25 @@
                     android:layout_marginEnd="4dp"
                     android:src="@drawable/baseline_star_24" />
 
-                <TextView
-                    android:id="@+id/avgRateTextView"
+                <!-- Rating (Editable) -->
+                <EditText
+                    android:id="@+id/ratingEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:ellipsize="end"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:focusable="false"
+                    android:background="@null"/>
             </LinearLayout>
+
+            <!-- Edit Button (Visible Only in Favorite Fragment) -->
+            <ImageButton
+                android:id="@+id/editButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/baseline_edit_note_24"
+                android:visibility="gone"
+                android:contentDescription="Edit Movie"/>
 
             <ImageButton
                 android:id="@+id/favoriteButton"

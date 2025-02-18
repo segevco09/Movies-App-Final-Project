@@ -33,22 +33,36 @@ class UpcomingMoviesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = MovieAdapter({ movie ->
-            findNavController().navigate(
-                UpcomingMoviesFragmentDirections.actionUpcomingMoviesFragmentToMovieDetailFragment(movie)
-            )
-        }) { movie ->
-            viewModel.updateFavorite(movie)
-        }
+        adapter = MovieAdapter(
+            onMovieClick = { movie ->
+                findNavController().navigate(
+                    UpcomingMoviesFragmentDirections.actionUpcomingMoviesFragmentToMovieDetailFragment(movie)
+                )
+            },
+            onFavoriteClick = { movie ->
+                viewModel.updateFavorite(movie)
+            },
+            onEditClick = { movie ->
+                // ✅ No edits allowed here, but we must pass it to the adapter
+                viewModel.updateMovie(movie)
+            },
+            isFavoriteFragment = false // ✅ Editing is disabled in this fragment
+        )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
         viewModel.upcomingMovies.observe(viewLifecycleOwner) { resource ->
             when (resource) {
-                is Resource.Success -> adapter.submitList(resource.data) //
-                is Resource.Error -> Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
-                is Resource.Loading -> {/* Show loading state */}
+                is Resource.Success -> {
+                    adapter.submitList(resource.data)
+                }
+                is Resource.Error -> {
+                    Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
+                }
+                is Resource.Loading -> {
+                    // Show a loading indicator if needed
+                }
             }
         }
     }
@@ -57,7 +71,7 @@ class UpcomingMoviesFragment : Fragment() {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
 
         val filteredList = if (query.isEmpty()) {
-            originalList // אם השדה ריק - החזר את הרשימה המלאה
+            originalList
         } else {
             originalList.filter { movie ->
                 movie.title.contains(query, ignoreCase = true)
@@ -65,6 +79,7 @@ class UpcomingMoviesFragment : Fragment() {
         }
         adapter.submitList(filteredList)
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

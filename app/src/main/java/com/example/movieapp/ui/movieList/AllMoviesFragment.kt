@@ -8,12 +8,10 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
-import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.FragmentAllMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
 import com.example.movieapp.utils.autoCleared
 import com.example.movieapp.utils.Resource
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -28,17 +26,25 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAllMoviesBinding.bind(view)
 
-        adapter = MovieAdapter({ movie ->
-            findNavController().navigate(
-                R.id.action_allMoviesFragment_to_movieDetailFragment,
-                Bundle().apply { putParcelable("movie", movie) }
-            )
-        }) { movie ->
-            viewModel.updateFavorite(movie)
-        }
+        adapter = MovieAdapter(
+            onMovieClick = { movie ->
+                findNavController().navigate(
+                    R.id.action_allMoviesFragment_to_movieDetailFragment,
+                    Bundle().apply { putParcelable("movie", movie) }
+                )
+            },
+            onFavoriteClick = { movie ->
+                viewModel.updateFavorite(movie)
+            },
+            onEditClick = { movie ->
+                // ✅ No edits allowed here, but we must pass it to the adapter
+                viewModel.updateMovie(movie)
+            },
+            isFavoriteFragment = false // ✅ Editing is disabled in this fragment
+        )
 
-        binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
 
         viewModel.popularMovies.observe(viewLifecycleOwner) {
             when (it) {
@@ -53,24 +59,20 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
                 is Resource.Loading -> { /* Show loading indicator if needed */ }
             }
         }
-
-
     }
+
     fun filterMovies(query: String) {
         val originalList = viewModel.popularMovies.value?.data ?: emptyList()
 
         val filteredList = if (query.isEmpty()) {
-            originalList // אם השדה ריק - החזר את הרשימה המלאה
+            originalList
         } else {
             originalList.filter { movie ->
                 movie.title.contains(query, ignoreCase = true)
             }
         }
-
         adapter.submitList(filteredList)
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
