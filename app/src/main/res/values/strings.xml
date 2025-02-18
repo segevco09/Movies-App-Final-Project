@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Movie App</string>
+    <string name="favorite_button_description">Click for adding to favorite</string>
 </resources>
