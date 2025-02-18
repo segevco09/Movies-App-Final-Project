@@ -13,6 +13,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     defaultConfig {
@@ -21,6 +22,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "TMDB_API_KEY", "\"${project.findProperty("TMDB_API_KEY") ?: ""}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
