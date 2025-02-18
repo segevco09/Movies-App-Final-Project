@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // ✅ חיפוש ה-NavController בצורה בטוחה דרך supportFragmentManager
+        //  חיפוש ה-NavController בצורה בטוחה דרך supportFragmentManager
         binding.root.post {
             try {
                 navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let {

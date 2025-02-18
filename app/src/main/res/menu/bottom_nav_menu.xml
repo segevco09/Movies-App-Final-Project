@@ -3,13 +3,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/allMoviesFragment"
+        android:icon="@drawable/all_movies_icon"
         android:title="All Movies" />
 
     <item
         android:id="@+id/upcomingMoviesFragment"
+        android:icon="@drawable/cominf_soon_icon"
         android:title="Upcoming Movies" />
 
     <item
         android:id="@+id/favoriteMoviesFragment"
+        android:icon="@drawable/favourite_icon"
         android:title="Favorites" />
 </menu>

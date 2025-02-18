@@ -40,15 +40,6 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
-        binding.upcomingButton.setOnClickListener {
-            findNavController().navigate(R.id.action_allMoviesFragment_to_upcomingMoviesFragment)
-        }
-
-
-        binding.favoritesButton.setOnClickListener {
-            findNavController().navigate(R.id.action_allMoviesFragment_to_favoriteMoviesFragment)
-        }
-
         viewModel.popularMovies.observe(viewLifecycleOwner) {
         when (it) {  // ✅ Remove ".status"
                 is com.example.movieapp.utils.Resource.Success -> adapter.submitList(it.data)
