@@ -1,5 +1,6 @@
 package com.example.movieapp.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -29,6 +30,20 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
     }
 
     fun updateMovie(movie: Movie) = viewModelScope.launch {
-        repository.updateMovie(movie) // ✅ Saves user-edited movie details
+        if (movie.title.isBlank()) {
+            Log.e("VALIDATION", "Movie title cannot be empty")
+            return@launch
+        }
+        if (movie.release_date.isBlank()) {
+            Log.e("VALIDATION", "Release date cannot be empty")
+            return@launch
+        }
+        if (movie.vote_average < 0 || movie.vote_average > 10) {
+            Log.e("VALIDATION", "Invalid rating value")
+            return@launch
+        }
+
+        repository.updateMovie(movie) // Save only if validation passes
     }
+
 }

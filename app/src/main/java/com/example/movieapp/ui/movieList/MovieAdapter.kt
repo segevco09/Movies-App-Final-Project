@@ -39,14 +39,14 @@ class MovieAdapter(
                 updateFavoriteIcon(updatedMovie.favorite)
             }
 
-            // ✅ Show "Edit" button only in Favorite Fragment
+            // Show "Edit" button only in Favorite Fragment
             binding.editButton.visibility = if (isFavoriteFragment) View.VISIBLE else View.GONE
 
             binding.editButton.setOnClickListener {
-                enableEditing(movie, true) // ✅ Pass `movie` as a parameter
+                enableEditing(movie, true) // Pass `movie` as a parameter
             }
 
-            // ✅ Save changes when user clicks outside the EditText
+            // Save changes when user clicks outside the EditText
             binding.titleEditText.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) saveChanges(movie)
             }
@@ -73,10 +73,27 @@ class MovieAdapter(
         }
 
         private fun saveChanges(movie: Movie) {
-            val newTitle = binding.titleEditText.text.toString()
-            val newReleaseDate = binding.releaseDateEditText.text.toString()
-            val newVoteAverage = binding.ratingEditText.text.toString().toDoubleOrNull() ?: movie.vote_average
+            val newTitle = binding.titleEditText.text.toString().trim()
+            val newReleaseDate = binding.releaseDateEditText.text.toString().trim()
+            val newVoteAverage = binding.ratingEditText.text.toString().toDoubleOrNull()
 
+            // Validation checks
+            if (newTitle.isEmpty()) {
+                binding.titleEditText.error = "Title cannot be empty"
+                return
+            }
+
+            if (newReleaseDate.isEmpty()) {
+                binding.releaseDateEditText.error = "Release date cannot be empty"
+                return
+            }
+
+            if (newVoteAverage == null || newVoteAverage < 0 || newVoteAverage > 10) {
+                binding.ratingEditText.error = "Rating must be between 0 and 10"
+                return
+            }
+
+            // Only update if there are actual changes
             if (newTitle != movie.title || newReleaseDate != movie.release_date || newVoteAverage != movie.vote_average) {
                 val updatedMovie = movie.copy(
                     title = newTitle,
@@ -86,6 +103,7 @@ class MovieAdapter(
                 onEditClick(updatedMovie)
             }
         }
+
 
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             binding.favoriteButton.setImageResource(
