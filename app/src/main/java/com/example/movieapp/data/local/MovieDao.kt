@@ -23,6 +23,10 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE id = :movieId")
     suspend fun getMovieById(movieId: Int): Movie?
 
+    @Query("SELECT * FROM movies WHERE id = :movieId")
+    fun getMovieByIdLiveData(movieId: Int): LiveData<Movie> // ✅ Use LiveData for auto-updates
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<Movie>)
 

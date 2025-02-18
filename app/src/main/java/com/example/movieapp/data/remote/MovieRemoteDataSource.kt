@@ -12,6 +12,8 @@ class MovieRemoteDataSource @Inject constructor(
 
     suspend fun getPopularMovies() = getResult { movieApiService.getPopularMovies("ab31dd0cb696f61108161a49f49d3c02") }
     suspend fun getUpcomingMovies() = getResult { movieApiService.getUpcomingMovies("ab31dd0cb696f61108161a49f49d3c02") }
+    suspend fun getMovieById(movieId: Int) = getResult { movieApiService.getMovieById(movieId, "ab31dd0cb696f61108161a49f49d3c02")}
+
 }
 
 

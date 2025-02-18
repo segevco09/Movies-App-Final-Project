@@ -50,6 +50,20 @@ class MovieRepository @Inject constructor(
         }
     )
 
+    fun getMovieById(movieId: Int): LiveData<Resource<Movie>> = performFetchingAndSaving(
+        { localDataSource.getMovieByIdLiveData(movieId) }, // ✅ Load from Room first
+        { remoteDataSource.getMovieById(movieId) }, // ✅ Then fetch from API
+        { movie ->
+            val existingMovie = localDataSource.getMovieById(movie.id) // ✅ Preserve existing data
+            val updatedMovie = movie.copy(
+                isPopular = existingMovie?.isPopular ?: false,
+                isUpcoming = existingMovie?.isUpcoming ?: false,
+                favorite = existingMovie?.favorite ?: false
+            )
+            localDataSource.updateMovie(updatedMovie) // ✅ Save the updated movie
+        }
+    )
+
 
     suspend fun fetchPopularMovies() {
         val result = remoteDataSource.getPopularMovies()
@@ -86,7 +100,6 @@ class MovieRepository @Inject constructor(
 
 
 
-
     fun getFavoriteMovies(): LiveData<List<Movie>> = localDataSource.getFavoriteMovies()
 
     suspend fun updateFavorite(movie: Movie) {
@@ -95,5 +108,6 @@ class MovieRepository @Inject constructor(
             localDataSource.updateMovie(existingMovie.copy(favorite = !existingMovie.favorite)) // ✅ Only toggle favorite
         }
     }
+
 
 }
