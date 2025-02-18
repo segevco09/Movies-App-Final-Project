@@ -40,11 +40,24 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
-        // ✅ Observe favoriteMovies directly from Room
+        // ✅ עדכון הרשימה כשהנתונים משתנים
         viewModel.favoriteMovies.observe(viewLifecycleOwner) { movies ->
             adapter.submitList(movies)
             emptyTextView.visibility = if (movies.isNullOrEmpty()) View.VISIBLE else View.GONE
         }
+    }
 
+    // ✅ פונקציה חדשה לסינון הסרטים
+    fun filterMovies(query: String) {
+        val originalList = viewModel.favoriteMovies.value ?: emptyList() // ✅ אין צורך ב- `Resource`
+        val filteredList = if (query.isEmpty()) {
+            originalList // אם החיפוש ריק, הצג את כל הסרטים
+        } else {
+            originalList.filter { movie ->
+                movie.title.contains(query, ignoreCase = true)
+            }
+        }
+
+        adapter.submitList(filteredList)
     }
 }

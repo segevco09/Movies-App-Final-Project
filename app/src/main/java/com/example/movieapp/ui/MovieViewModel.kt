@@ -21,6 +21,10 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
     // ✅ Fetch favorites directly from Room (No need for MutableLiveData)
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()
 
+    fun getPopularMoviesList(): List<Movie> {
+        return (popularMovies.value as? Resource.Success)?.data ?: emptyList()
+    }
+
     fun updateFavorite(movie: Movie) = viewModelScope.launch {
         val updatedMovie = movie.copy(favorite = !movie.favorite) // ✅ Toggle favorite status
         repository.updateFavorite(updatedMovie)

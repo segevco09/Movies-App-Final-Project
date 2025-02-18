@@ -41,15 +41,36 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel.popularMovies.observe(viewLifecycleOwner) {
-        when (it) {  // ✅ Remove ".status"
-                is com.example.movieapp.utils.Resource.Success -> adapter.submitList(it.data)
-                is com.example.movieapp.utils.Resource.Error ->
+            when (it) {
+                is Resource.Success -> {
+                    if (!it.data.isNullOrEmpty()) {
+                        adapter.submitList(it.data)
+                    }
+                }
+                is Resource.Error -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
-                is com.example.movieapp.utils.Resource.Loading -> {/* Show loading state */}
+                }
+                is Resource.Loading -> { /* Show loading indicator if needed */ }
             }
-
         }
+
+
     }
+    fun filterMovies(query: String) {
+        val originalList = viewModel.popularMovies.value?.data ?: emptyList()
+
+        val filteredList = if (query.isEmpty()) {
+            originalList // אם השדה ריק - החזר את הרשימה המלאה
+        } else {
+            originalList.filter { movie ->
+                movie.title.contains(query, ignoreCase = true)
+            }
+        }
+
+        adapter.submitList(filteredList)
+    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -53,7 +53,19 @@ class UpcomingMoviesFragment : Fragment() {
         }
 
     }
+    fun filterMovies(query: String) {
+        val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
 
+        val filteredList = if (query.isEmpty()) {
+            originalList // אם השדה ריק - החזר את הרשימה המלאה
+        } else {
+            originalList.filter { movie ->
+                movie.title.contains(query, ignoreCase = true)
+            }
+        }
+
+        adapter.submitList(filteredList)
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

@@ -18,6 +18,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/searchCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="8dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Search for a movie..."
+            android:padding="10dp"
+            android:textSize="16sp"
+            android:background="@android:color/transparent"
+            android:imeOptions="actionSearch"
+            android:inputType="text"/>
+    </com.google.android.material.card.MaterialCardView>
+
+
     <!-- מקום לתוכן הדינמי -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -25,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:layout_constraintTop_toBottomOf="@id/searchCardView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:navGraph="@navigation/nav_graph"/>
 
