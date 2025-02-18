@@ -8,7 +8,7 @@
 
     <item
         android:id="@+id/upcomingMoviesFragment"
-        android:icon="@drawable/cominf_soon_icon"
+        android:icon="@drawable/coming_soon_icon"
         android:title="Upcoming Movies" />
 
     <item
