@@ -26,9 +26,9 @@ class MovieAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
-            binding.titleEditText.setText(movie.title)
-            binding.releaseDateEditText.setText(movie.release_date)
-            binding.ratingEditText.setText(movie.vote_average.toString())
+            binding.titleTextView.setText(movie.title)
+            binding.releaseDateTextView.setText(movie.release_date)
+            binding.ratingTextView.setText(movie.vote_average.toString())
 
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)

@@ -12,9 +12,9 @@ abstract class BaseDataSource {
                 val body = result.body()
                 if (body != null) return Resource.success(body)
             }
-            Resource.error("Network call failed: ${result.message()} ${result.code()}")
+            Resource.error("Network call failed")
         } catch (e: Exception) {
-            Resource.error("Network call failed: ${e.localizedMessage ?: e.toString()}")
+            Resource.error("Network call failed")
         }
     }
 }

@@ -21,7 +21,7 @@ interface MovieApiService {
 
     @GET("{movie_id}")
     suspend fun getMovieById(
-        @retrofit2.http.Path("movie_id") movieId: Int,
+        @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String =  BuildConfig.TMDB_API_KEY
     ): Response<Movie>
 
