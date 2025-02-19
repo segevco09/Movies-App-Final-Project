@@ -5,6 +5,7 @@ import com.example.movieapp.data.local.Movie
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface MovieApiService {
 
@@ -23,5 +24,11 @@ interface MovieApiService {
         @retrofit2.http.Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String =  BuildConfig.TMDB_API_KEY
     ): Response<Movie>
+
+    @GET("{movie_id}/videos") // ✅ Fetch trailer videos
+    suspend fun getMovieVideos(
+        @Path("movie_id") movieId: Int,
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY
+    ): Response<VideoResponse>
 
 }

@@ -39,11 +39,10 @@ class MovieDetailFragment : Fragment() {
 
         val movieId = args.movie.id
 
-        // ✅ Observe the movie from Room and fetch latest details from API
+        // ✅ Observe movie details
         viewModel.getMovieById(movieId).observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
-                    // ✅ Optional: Set text fields to "Loading..." while data loads
                     binding.titleTextView.text = "Loading..."
                     binding.overviewTextView.text = "Loading..."
                 }
@@ -54,6 +53,19 @@ class MovieDetailFragment : Fragment() {
                     Toast.makeText(context, "Failed to load movie details", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        // ✅ Fetch and load the movie trailer dynamically
+        viewModel.fetchTrailer(movieId) { videoId: String? ->
+            if (videoId != null) {
+                binding.youtubePlayerView.visibility = View.VISIBLE // Show the player if there's video
+                loadYouTubeVideo(videoId)
+            }
+            else {
+                binding.youtubePlayerView.visibility = View.GONE // Hide the player if no video found
+                Toast.makeText(requireContext(), "Trailer not available", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 
@@ -67,14 +79,14 @@ class MovieDetailFragment : Fragment() {
         Glide.with(this)
             .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
             .into(binding.posterImageView)
+    }
 
-        // ✅ Initialize YouTube Player
+    private fun loadYouTubeVideo(videoId: String) {
         val youTubePlayerView: YouTubePlayerView = binding.youtubePlayerView
         lifecycle.addObserver(youTubePlayerView)
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = "dQw4w9WgXcQ"
                 youTubePlayer.loadVideo(videoId, 0f)
             }
         })

@@ -46,4 +46,11 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
         repository.updateMovie(movie) // Save only if validation passes
     }
 
+    fun fetchTrailer(movieId: Int, onResult: (String?) -> Unit) {
+        viewModelScope.launch {
+            val videoId = repository.getMovieTrailer(movieId)
+            onResult(videoId)
+        }
+    }
 }
+

@@ -1,8 +1,10 @@
 package com.example.movieapp.data
 
 import androidx.lifecycle.LiveData
+import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.data.local.MovieDao
+import com.example.movieapp.data.remote.MovieApiService
 import com.example.movieapp.data.remote.MovieRemoteDataSource
 import com.example.movieapp.utils.Resource
 import com.example.movieapp.utils.performFetchingAndSaving
@@ -124,6 +126,22 @@ class MovieRepository @Inject constructor(
             localDataSource.updateMovie(existingMovie.copy(favorite = !existingMovie.favorite))
         }
     }
+
+    suspend fun getMovieTrailer(movieId: Int): String? {
+        return try {
+            val result = remoteDataSource.getMovieVideos(movieId)
+            if (result is Resource.Success) {
+                result.data?.videos
+                    ?.firstOrNull { it.site == "YouTube" && it.type == "Trailer" }
+                    ?.key
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
     suspend fun updateMovie(movie: Movie) {
         localDataSource.updateMovie(movie) // ✅ Update edited movies in the database
