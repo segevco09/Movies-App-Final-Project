@@ -1,11 +1,10 @@
 package com.example.movieapp.ui.movieList
 
 import android.app.AlertDialog
+import android.app.DatePickerDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +13,7 @@ import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.DialogEditMovieBinding
 import com.example.movieapp.databinding.ItemMovieBinding
+import java.util.*
 
 class MovieAdapter(
     private val onMovieClick: (Movie) -> Unit,
@@ -57,7 +57,7 @@ class MovieAdapter(
 
             // Set current values
             dialogBinding.editMovieTitle.setText(movie.title)
-            dialogBinding.editMovieReleaseDate.setText(movie.release_date)
+            dialogBinding.editMovieReleaseDate.text = movie.release_date // Use TextView now
             dialogBinding.editMovieRating.setText(movie.vote_average.toString())
 
             val alertDialog = AlertDialog.Builder(binding.root.context)
@@ -65,6 +65,11 @@ class MovieAdapter(
                 .setTitle("Edit Movie")
                 .setCancelable(true) // ✅ Allows clicking outside to dismiss
                 .create()
+
+            // ✅ Open DatePicker when clicking the release date field
+            dialogBinding.editMovieReleaseDate.setOnClickListener {
+                showDatePickerDialog(dialogBinding.editMovieReleaseDate)
+            }
 
             dialogBinding.confirmChangesButton.setOnClickListener {
                 val newTitle = dialogBinding.editMovieTitle.text.toString().trim()
@@ -78,7 +83,7 @@ class MovieAdapter(
                 }
 
                 if (newReleaseDate.isEmpty()) {
-                    dialogBinding.editMovieReleaseDate.error = "Release date cannot be empty"
+                    Toast.makeText(binding.root.context, "Please select a release date", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
@@ -105,6 +110,23 @@ class MovieAdapter(
             alertDialog.show()
         }
 
+        private fun showDatePickerDialog(textView: android.widget.TextView) {
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            val datePickerDialog = DatePickerDialog(
+                textView.context,
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                    textView.text = formattedDate
+                },
+                year, month, day
+            )
+
+            datePickerDialog.show()
+        }
 
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             binding.favoriteButton.setImageResource(
