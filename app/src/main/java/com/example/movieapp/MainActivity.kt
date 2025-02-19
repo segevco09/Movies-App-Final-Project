@@ -27,13 +27,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // חיפוש ה-NavController בצורה בטוחה דרך supportFragmentManager
         binding.root.post {
             try {
-                navController =
-                    supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let {
-                        it as? androidx.navigation.fragment.NavHostFragment
-                    }?.navController ?: throw IllegalStateException("NavController not found")
+                navController = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)?.let {
+                    it as? androidx.navigation.fragment.NavHostFragment
+                }?.navController ?: throw IllegalStateException("NavController not found")
 
                 Log.d("NavigationDebug", "NavController initialized successfully")
                 binding.bottomNavigation.setupWithNavController(navController)
@@ -41,17 +39,18 @@ class MainActivity : AppCompatActivity() {
                 navController.addOnDestinationChangedListener { _, destination, _ ->
                     binding.bottomNavigation.visibility =
                         if (destination.id == R.id.movieDetailFragment) View.GONE else View.VISIBLE
+
+                    binding.searchEditText.visibility =
+                        if (destination.id == R.id.movieDetailFragment) View.GONE else View.VISIBLE
                 }
             } catch (e: Exception) {
                 Log.e("NavigationDebug", "Error initializing NavController", e)
             }
         }
 
-        // חיבור EditText לפונקציית החיפוש בתוך CardView
         binding.searchEditText.setOnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 val query = v.text.toString().trim()
-                Log.d("SearchDebug", "Search submitted: $query") // ✅ בדיקת לוג
                 searchMovies(query)
                 true
             } else {
@@ -63,9 +62,7 @@ class MainActivity : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val query = s.toString().trim()
-                //Log.d("SearchDebug", "Search changed: $query") // ✅ בדיקת לוג
-                searchMovies(query)
+                searchMovies(s.toString().trim())
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -79,12 +76,15 @@ class MainActivity : AppCompatActivity() {
         val currentFragment = navHostFragment?.childFragmentManager?.fragments?.firstOrNull()
         when (currentFragment) {
             is AllMoviesFragment -> {
+                Log.d("SearchDebug", "Calling filterMovies in AllMoviesFragment with query: $query")
                 currentFragment.filterMovies(query)
             }
             is UpcomingMoviesFragment -> {
+                Log.d("SearchDebug", "Calling filterMovies in UpcomingMoviesFragment with query: $query")
                 currentFragment.filterMovies(query)
             }
             is FavoriteMoviesFragment -> {
+                Log.d("SearchDebug", "Calling filterMovies in FavoriteMoviesFragment with query: $query")
                 currentFragment.filterMovies(query)
             }
             else -> {
