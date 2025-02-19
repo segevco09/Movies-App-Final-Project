@@ -103,9 +103,6 @@ class MovieAdapter(
                 alertDialog.dismiss() // ✅ Close dialog only if valid
             }
 
-            dialogBinding.cancelButton.setOnClickListener {
-                alertDialog.dismiss()
-            }
 
             alertDialog.show()
         }
