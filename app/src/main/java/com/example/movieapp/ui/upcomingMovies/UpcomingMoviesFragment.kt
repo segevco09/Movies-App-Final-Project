@@ -79,6 +79,20 @@ class UpcomingMoviesFragment : Fragment() {
         }
         adapter.submitList(filteredList)
     }
+    fun sortMovies(sortType: String) {
+        val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
+        val sortedList = when (sortType) {
+            "High Rate" -> originalList.sortedByDescending { it.vote_average }
+            "Low Rate" -> originalList.sortedBy { it.vote_average }
+            "Latest" -> originalList.sortedByDescending { it.release_date }
+            "Oldest" -> originalList.sortedBy { it.release_date }
+            else -> originalList // Default - Regular
+        }
+        adapter.submitList(sortedList)
+        binding.recyclerView.post {
+            binding.recyclerView.scrollToPosition(0)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -1,8 +1,10 @@
 package com.example.movieapp.ui.userFavorite
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -10,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentFavoriteMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
+import com.example.movieapp.utils.Resource
 import com.example.movieapp.ui.movieList.MovieAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,6 +63,20 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
             }
         }
         adapter.submitList(filteredList)
+    }
+    fun sortMovies(sortType: String) {
+        val originalList = viewModel.favoriteMovies.value ?: emptyList()
+        val sortedList = when (sortType) {
+            "High Rate" -> originalList.sortedByDescending { it.vote_average }
+            "Low Rate" -> originalList.sortedBy { it.vote_average }
+            "Latest" -> originalList.sortedByDescending { it.release_date }
+            "Oldest" -> originalList.sortedBy { it.release_date }
+            else -> originalList // Default - Regular
+        }
+        adapter.submitList(sortedList)
+        binding.recyclerView.post {
+            binding.recyclerView.scrollToPosition(0)
+        }
     }
 
     override fun onDestroyView() {

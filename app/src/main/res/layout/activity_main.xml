@@ -1,10 +1,9 @@
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@drawable/more_faded_gradient_background"
     android:layout_height="match_parent"
+    android:background="@drawable/more_faded_gradient_background"
     tools:context=".MainActivity">
 
     <!-- תפריט הניווט בראש המסך -->
@@ -12,22 +11,22 @@
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        app:menu="@menu/bottom_nav_menu"
-        app:labelVisibilityMode="labeled"
         android:background="@drawable/more_faded_gradient_background"
-        app:layout_constraintTop_toTopOf="parent"
+        app:labelVisibilityMode="labeled"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/bottom_nav_menu" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/searchCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="8dp"
         android:backgroundTint="@color/turquoise"
-        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation">
 
         <EditText
             android:id="@+id/searchEditText"
@@ -44,6 +43,17 @@
     </com.google.android.material.card.MaterialCardView>
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSort"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchCardView"
+        android:scrollbars="horizontal" />
+
+
     <!-- מקום לתוכן הדינמי -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
@@ -51,8 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:defaultNavHost="true"
-        app:layout_constraintTop_toBottomOf="@id/searchCardView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:navGraph="@navigation/nav_graph"/>
+        app:layout_constraintTop_toBottomOf="@id/recyclerViewSort"
+        app:navGraph="@navigation/nav_graph" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
