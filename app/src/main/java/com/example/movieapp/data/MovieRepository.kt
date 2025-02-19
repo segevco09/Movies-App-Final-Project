@@ -25,7 +25,7 @@ class MovieRepository @Inject constructor(
                 val existingMovie = localDataSource.getMovieById(newMovie.id)
 
                 if (existingMovie?.favorite == true) {
-                    existingMovie // ✅ Keep local changes if the movie is a favorite
+                    existingMovie
                 } else {
                     newMovie.copy(
                         isPopular = true,
@@ -46,7 +46,7 @@ class MovieRepository @Inject constructor(
                 val existingMovie = localDataSource.getMovieById(newMovie.id)
 
                 if (existingMovie?.favorite == true) {
-                    existingMovie // ✅ Keep local changes if the movie is a favorite
+                    existingMovie
                 } else {
                     newMovie.copy(
                         isPopular = existingMovie?.isPopular ?: false,
@@ -66,7 +66,7 @@ class MovieRepository @Inject constructor(
             val existingMovie = localDataSource.getMovieById(movie.id)
 
             val updatedMovie = if (existingMovie?.favorite == true) {
-                existingMovie // ✅ Keep local changes if the movie is a favorite
+                existingMovie
             } else {
                 movie.copy(
                     isPopular = existingMovie?.isPopular ?: false,
@@ -85,7 +85,7 @@ class MovieRepository @Inject constructor(
                 val existingMovie = localDataSource.getMovieById(movie.id)
 
                 if (existingMovie?.favorite == true) {
-                    existingMovie // ✅ Keep local changes if the movie is a favorite
+                    existingMovie
                 } else {
                     movie.copy(
                         isPopular = true,
@@ -105,7 +105,7 @@ class MovieRepository @Inject constructor(
                 val existingMovie = localDataSource.getMovieById(movie.id)
 
                 if (existingMovie?.favorite == true) {
-                    existingMovie // ✅ Keep local changes if the movie is a favorite
+                    existingMovie
                 } else {
                     movie.copy(
                         isPopular = existingMovie?.isPopular ?: false,
@@ -116,6 +116,14 @@ class MovieRepository @Inject constructor(
             }
             localDataSource.insertMovies(updatedMovies)
         }
+    }
+
+    suspend fun refreshPopularMovies() {
+        fetchPopularMovies() // ✅ Calls existing function to refresh popular movies
+    }
+
+    suspend fun refreshUpcomingMovies() {
+        fetchUpcomingMovies() // ✅ Calls existing function to refresh upcoming movies
     }
 
     fun getFavoriteMovies(): LiveData<List<Movie>> = localDataSource.getFavoriteMovies()
@@ -142,8 +150,7 @@ class MovieRepository @Inject constructor(
         }
     }
 
-
     suspend fun updateMovie(movie: Movie) {
-        localDataSource.updateMovie(movie) // ✅ Update edited movies in the database
+        localDataSource.updateMovie(movie)
     }
 }

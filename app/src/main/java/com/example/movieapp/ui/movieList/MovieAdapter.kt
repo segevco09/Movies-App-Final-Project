@@ -1,20 +1,25 @@
 package com.example.movieapp.ui.movieList
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
+import com.example.movieapp.databinding.DialogEditMovieBinding
 import com.example.movieapp.databinding.ItemMovieBinding
 
 class MovieAdapter(
     private val onMovieClick: (Movie) -> Unit,
     private val onFavoriteClick: (Movie) -> Unit,
     private val onEditClick: (Movie) -> Unit,
-    private val isFavoriteFragment: Boolean // Determines when to show edit button
+    private val isFavoriteFragment: Boolean
 ) : ListAdapter<Movie, MovieAdapter.MovieViewHolder>(MovieDiffCallback()) {
 
     inner class MovieViewHolder(private val binding: ItemMovieBinding) :
@@ -43,65 +48,61 @@ class MovieAdapter(
             binding.editButton.visibility = if (isFavoriteFragment) View.VISIBLE else View.GONE
 
             binding.editButton.setOnClickListener {
-                enableEditing(movie, true) // Pass `movie` as a parameter
-            }
-
-            // Save changes when user clicks outside the EditText
-            binding.titleEditText.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) saveChanges(movie)
-            }
-            binding.releaseDateEditText.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) saveChanges(movie)
-            }
-            binding.ratingEditText.setOnFocusChangeListener { _, hasFocus ->
-                if (!hasFocus) saveChanges(movie)
+                showEditDialog(movie)
             }
         }
 
-        // ✅ Pass `movie` as a parameter to fix the error
-        private fun enableEditing(movie: Movie, enable: Boolean) {
-            binding.titleEditText.isFocusable = enable
-            binding.titleEditText.isFocusableInTouchMode = enable
+        private fun showEditDialog(movie: Movie) {
+            val dialogBinding = DialogEditMovieBinding.inflate(LayoutInflater.from(binding.root.context))
 
-            binding.releaseDateEditText.isFocusable = enable
-            binding.releaseDateEditText.isFocusableInTouchMode = enable
+            // Set current values
+            dialogBinding.editMovieTitle.setText(movie.title)
+            dialogBinding.editMovieReleaseDate.setText(movie.release_date)
+            dialogBinding.editMovieRating.setText(movie.vote_average.toString())
 
-            binding.ratingEditText.isFocusable = enable
-            binding.ratingEditText.isFocusableInTouchMode = enable
+            val alertDialog = AlertDialog.Builder(binding.root.context)
+                .setView(dialogBinding.root)
+                .setTitle("Edit Movie")
+                .setCancelable(true) // ✅ Allows clicking outside to dismiss
+                .create()
 
-            if (!enable) saveChanges(movie)
-        }
+            dialogBinding.confirmChangesButton.setOnClickListener {
+                val newTitle = dialogBinding.editMovieTitle.text.toString().trim()
+                val newReleaseDate = dialogBinding.editMovieReleaseDate.text.toString().trim()
+                val newVoteAverage = dialogBinding.editMovieRating.text.toString().toDoubleOrNull()
 
-        private fun saveChanges(movie: Movie) {
-            val newTitle = binding.titleEditText.text.toString().trim()
-            val newReleaseDate = binding.releaseDateEditText.text.toString().trim()
-            val newVoteAverage = binding.ratingEditText.text.toString().toDoubleOrNull()
+                // ✅ Validation checks
+                if (newTitle.isEmpty()) {
+                    dialogBinding.editMovieTitle.error = "Title cannot be empty"
+                    return@setOnClickListener
+                }
 
-            // Validation checks
-            if (newTitle.isEmpty()) {
-                binding.titleEditText.error = "Title cannot be empty"
-                return
-            }
+                if (newReleaseDate.isEmpty()) {
+                    dialogBinding.editMovieReleaseDate.error = "Release date cannot be empty"
+                    return@setOnClickListener
+                }
 
-            if (newReleaseDate.isEmpty()) {
-                binding.releaseDateEditText.error = "Release date cannot be empty"
-                return
-            }
+                if (newVoteAverage == null || newVoteAverage < 0 || newVoteAverage > 10) {
+                    dialogBinding.editMovieRating.error = "Rating must be between 0 and 10"
+                    return@setOnClickListener
+                }
 
-            if (newVoteAverage == null || newVoteAverage < 0 || newVoteAverage > 10) {
-                binding.ratingEditText.error = "Rating must be between 0 and 10"
-                return
-            }
-
-            // Only update if there are actual changes
-            if (newTitle != movie.title || newReleaseDate != movie.release_date || newVoteAverage != movie.vote_average) {
+                // ✅ If validation passes, update the movie
                 val updatedMovie = movie.copy(
                     title = newTitle,
                     release_date = newReleaseDate,
                     vote_average = newVoteAverage
                 )
-                onEditClick(updatedMovie)
+
+                onEditClick(updatedMovie) // ✅ Save changes
+                alertDialog.dismiss() // ✅ Close dialog only if valid
             }
+
+            dialogBinding.cancelButton.setOnClickListener {
+                alertDialog.dismiss()
+            }
+
+            alertDialog.show()
         }
 
 

@@ -40,13 +40,12 @@ class UpcomingMoviesFragment : Fragment() {
                 )
             },
             onFavoriteClick = { movie ->
-                viewModel.updateFavorite(movie)
+                viewModel.updateFavorite(movie) // ✅ Toggle favorite status
             },
             onEditClick = { movie ->
-                // ✅ No edits allowed here, but we must pass it to the adapter
-                viewModel.updateMovie(movie)
+                viewModel.updateMovie(movie) // ✅ Edits will only persist if the movie is favorite
             },
-            isFavoriteFragment = false // ✅ Editing is disabled in this fragment
+            isFavoriteFragment = false // ✅ Editing is disabled here
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -67,6 +66,11 @@ class UpcomingMoviesFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchUpcomingMovies() // ✅ Triggers API fetch when returning
+    }
+
     fun filterMovies(query: String) {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
 
@@ -79,6 +83,7 @@ class UpcomingMoviesFragment : Fragment() {
         }
         adapter.submitList(filteredList)
     }
+
     fun sortMovies(sortType: String) {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
         val sortedList = when (sortType) {

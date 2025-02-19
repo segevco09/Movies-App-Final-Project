@@ -46,6 +46,15 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
         repository.updateMovie(movie) // Save only if validation passes
     }
 
+    fun fetchPopularMovies() = viewModelScope.launch {
+        repository.refreshPopularMovies() // ✅ Triggers new API fetch & updates UI
+    }
+
+    fun fetchUpcomingMovies() = viewModelScope.launch {
+        repository.refreshUpcomingMovies() // ✅ Triggers new API fetch & updates UI
+    }
+
+
     fun fetchTrailer(movieId: Int, onResult: (String?) -> Unit) {
         viewModelScope.launch {
             val videoId = repository.getMovieTrailer(movieId)

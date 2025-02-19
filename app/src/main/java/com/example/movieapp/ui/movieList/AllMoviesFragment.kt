@@ -88,6 +88,10 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
             binding.recyclerView.scrollToPosition(0)
         }
     }
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchPopularMovies() // ✅ Forces fresh data from API every time you come back
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
