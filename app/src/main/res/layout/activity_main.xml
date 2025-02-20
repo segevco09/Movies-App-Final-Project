@@ -18,28 +18,58 @@
         app:layout_constraintTop_toTopOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/searchCardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_margin="10dp"
         android:background="@android:color/transparent"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bottom_navigation">
+        app:layout_constraintTop_toBottomOf="@id/bottom_navigation"
+        app:strokeColor="@color/gray"
+        app:strokeWidth="1dp">
 
-        <EditText
-            android:id="@+id/searchEditText"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:background="@color/turquoise"
-            android:hint="Search for a movie..."
-            android:imeOptions="actionSearch"
-            android:inputType="text"
-            android:padding="20dp"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:layout_height="match_parent">
+
+            <!-- Background Image / Gradient -->
+            <ImageView
+                android:id="@+id/search_card_background"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gradient_background" />
+
+            <!-- Search Icon -->
+            <ImageView
+                android:id="@+id/search_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/search" />
+
+            <!-- Search Bar -->
+            <EditText
+                android:id="@+id/searchEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/search_icon"
+                android:background="@android:color/transparent"
+                android:gravity="center_vertical"
+                android:hint="Search for a movie"
+                android:imeOptions="actionSearch"
+                android:importantForAutofill="no"
+                android:paddingStart="8dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+        </RelativeLayout>
     </com.google.android.material.card.MaterialCardView>
 
 
@@ -47,12 +77,12 @@
         android:id="@+id/recyclerViewSort"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:scrollbars="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchCardView"
-        android:scrollbars="horizontal" />
+        app:layout_constraintTop_toBottomOf="@id/searchCardView" />
 
 
     <!-- מקום לתוכן הדינמי -->
