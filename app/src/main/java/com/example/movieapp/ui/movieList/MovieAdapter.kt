@@ -2,6 +2,7 @@ package com.example.movieapp.ui.movieList
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.DialogEditMovieBinding
 import com.example.movieapp.databinding.ItemMovieBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class MovieAdapter(
@@ -39,9 +41,15 @@ class MovieAdapter(
             binding.root.setOnClickListener { onMovieClick(movie) }
 
             binding.favoriteButton.setOnClickListener {
-                val updatedMovie = movie.copy(favorite = !movie.favorite)
-                onFavoriteClick(updatedMovie)
-                updateFavoriteIcon(updatedMovie.favorite)
+                if (movie.favorite) {
+                    // Show confirmation dialog only when removing from favorites in FavoriteFragment
+                    showRemoveFromFavoritesDialog(movie)
+                } else {
+                    // Regular favorite toggle for non-favorite items or in other fragments
+                    val updatedMovie = movie.copy(favorite = !movie.favorite)
+                    onFavoriteClick(updatedMovie)
+                    updateFavoriteIcon(updatedMovie.favorite)
+                }
             }
 
             // Show "Edit" button only in Favorite Fragment
@@ -123,6 +131,28 @@ class MovieAdapter(
             )
 
             datePickerDialog.show()
+        }
+
+        private fun showRemoveFromFavoritesDialog(movie: Movie) {
+            MaterialAlertDialogBuilder(binding.root.context, R.style.CustomAlertDialog)
+                .setBackground(binding.root.context.getDrawable(R.drawable.edit_text_background))
+                .setTitle("Remove from Favorites")
+                .setMessage("Are you sure you want to remove this movie from the favorite list? Your changes will not be saved.")
+                .setPositiveButton("Remove") { dialog, _ ->
+                    val updatedMovie = movie.copy(favorite = false)
+                    onFavoriteClick(updatedMovie)
+                    updateFavoriteIcon(false)
+                    dialog.dismiss()
+                }
+//                .setNegativeButton("Cancel") { dialog, _ ->
+//                    dialog.dismiss()
+//                }
+                .show()
+                .apply {
+                    // Style the dialog text colors
+                    getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(context.getColor(R.color.yellow))
+                    getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(context.getColor(R.color.light_gray))
+                }
         }
 
         private fun updateFavoriteIcon(isFavorite: Boolean) {
