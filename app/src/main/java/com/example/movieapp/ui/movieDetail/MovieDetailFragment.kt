@@ -24,7 +24,7 @@ class MovieDetailFragment : Fragment() {
     private var _binding: FragmentMovieDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MovieViewModel by viewModels()
+    private val viewModel: MovieDetailViewModel by viewModels()
     private val args: MovieDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -39,7 +39,7 @@ class MovieDetailFragment : Fragment() {
 
         val movieId = args.movie.id
 
-        // ✅ Observe movie details
+        // Use the new DetailViewModel
         viewModel.getMovieById(movieId).observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Loading -> {
@@ -55,17 +55,15 @@ class MovieDetailFragment : Fragment() {
             }
         }
 
-        // ✅ Fetch and load the movie trailer dynamically
-        viewModel.fetchTrailer(movieId) { videoId: String? ->
+        // Fetch trailer using the new ViewModel
+        viewModel.fetchTrailer(movieId) { videoId ->
             if (videoId != null) {
-                binding.youtubePlayerView.visibility = View.VISIBLE // Show the player if there's video
+                binding.youtubePlayerView.visibility = View.VISIBLE
                 loadYouTubeVideo(videoId)
-            }
-            else {
-                binding.youtubePlayerView.visibility = View.GONE // Hide the player if no video found
+            } else {
+                binding.youtubePlayerView.visibility = View.GONE
                 Toast.makeText(requireContext(), "Trailer not available", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 

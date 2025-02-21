@@ -18,14 +18,8 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
     val upcomingMovies: LiveData<Resource<List<Movie>>> = repository.getUpcomingMovies()
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()
 
-    fun getMovieById(movieId: Int): LiveData<Resource<Movie>> = repository.getMovieById(movieId)
-
-    fun getPopularMoviesList(): List<Movie> {
-        return (popularMovies.value as? Resource.Success)?.data ?: emptyList()
-    }
-
     fun updateFavorite(movie: Movie) = viewModelScope.launch {
-        val updatedMovie = movie.copy(favorite = !movie.favorite) // ✅ Toggle favorite status
+        val updatedMovie = movie.copy(favorite = !movie.favorite)
         repository.updateFavorite(updatedMovie)
     }
 
@@ -43,23 +37,15 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
             return@launch
         }
 
-        repository.updateMovie(movie) // Save only if validation passes
+        repository.updateMovie(movie)
     }
 
     fun fetchPopularMovies() = viewModelScope.launch {
-        repository.refreshPopularMovies() // ✅ Triggers new API fetch & updates UI
+        repository.refreshPopularMovies()
     }
 
     fun fetchUpcomingMovies() = viewModelScope.launch {
-        repository.refreshUpcomingMovies() // ✅ Triggers new API fetch & updates UI
-    }
-
-
-    fun fetchTrailer(movieId: Int, onResult: (String?) -> Unit) {
-        viewModelScope.launch {
-            val videoId = repository.getMovieTrailer(movieId)
-            onResult(videoId)
-        }
+        repository.refreshUpcomingMovies()
     }
 }
 
