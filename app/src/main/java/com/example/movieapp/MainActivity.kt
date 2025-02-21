@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     val isDetailFragment = destination.id == R.id.movieDetailFragment
 
                     binding.bottomNavigation.visibility = if (isDetailFragment) View.GONE else View.VISIBLE
-                    binding.searchEditText.visibility = if (isDetailFragment) View.GONE else View.VISIBLE
+                    binding.searchCardView.visibility = if (isDetailFragment) View.GONE else View.VISIBLE
                     binding.recyclerViewSort.visibility = if (isDetailFragment) View.GONE else View.VISIBLE
 
                     binding.recyclerViewSort.adapter?.let {
