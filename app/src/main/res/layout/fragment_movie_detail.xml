@@ -1,149 +1,101 @@
-<ScrollView
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:id="@+id/scrolling"
-    android:background="@drawable/more_faded_gradient_background"
-    android:fillViewport="true">
+    android:background="@color/dark_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/frame_for_frag"
-        app:layout_constraintEnd_toEndOf="@id/scrolling"
-        app:layout_constraintStart_toStartOf="@id/scrolling"
-        app:layout_constraintTop_toTopOf="@+id/scrolling"
-        android:padding="16dp">
+        android:layout_height="400dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-
-        <TextView
-            android:id="@+id/titleTextView"
+        <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="55dp"
-            android:gravity="center"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@id/frame_for_frag"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="@color/dark_background">
 
-        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-            android:id="@+id/youtubePlayerView"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/titleTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            <ImageView
+                android:id="@+id/backdropImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"/>
 
-        <ImageView
-            android:id="@+id/posterImageView"
-            android:layout_width="240dp"
-            android:layout_height="320dp"
-            android:layout_marginTop="16dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/youtubePlayerView" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_overlay"/>
 
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <TextView
-            android:id="@+id/overviewTextView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="25dp"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/posterImageView" />
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="20dp"
-            app:layout_constraintTop_toBottomOf="@+id/overviewTextView"
-            tools:layout_editor_absoluteX="16dp">
+            android:padding="16dp">
 
-            <!-- Release Date Row -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Release Date: "
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
 
                 <TextView
                     android:id="@+id/releaseDateTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp" />
+                    android:textColor="@color/light_gray"/>
+
+                <TextView
+                    android:id="@+id/ratingTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/yellow"/>
             </LinearLayout>
 
-            <!-- Popularity Row -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Overview"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="24dp"/>
+
+            <TextView
+                android:id="@+id/overviewTextView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:textColor="@color/light_gray"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Popularity Rate: "
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/popularityRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp" />
-            </LinearLayout>
-
-            <!-- User Rating Row -->
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+                android:id="@+id/youtubePlayerView"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:text="Users Rate: "
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/usersRateTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp" />
-            </LinearLayout>
+                android:layout_marginTop="24dp"/>
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

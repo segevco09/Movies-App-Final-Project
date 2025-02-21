@@ -73,12 +73,12 @@ class MovieDetailFragment : Fragment() {
         binding.titleTextView.text = movie.title
         binding.overviewTextView.text = movie.overview
         binding.releaseDateTextView.text = movie.release_date
-        binding.popularityRateTextView.text = movie.popularity.toString()
-        binding.usersRateTextView.text = movie.vote_average.toString()
+        binding.ratingTextView.text = "★ ${movie.vote_average}"
 
+        // Load poster image
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
-            .into(binding.posterImageView)
+            .load("https://image.tmdb.org/t/p/original${movie.posterPath}")
+            .into(binding.backdropImageView)
     }
 
     private fun loadYouTubeVideo(videoId: String) {
