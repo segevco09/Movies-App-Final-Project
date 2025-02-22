@@ -25,7 +25,7 @@ interface MovieApiService {
         @Query("api_key") apiKey: String =  BuildConfig.TMDB_API_KEY
     ): Response<Movie>
 
-    @GET("{movie_id}/videos") // ✅ Fetch trailer videos
+    @GET("{movie_id}/videos")
     suspend fun getMovieVideos(
         @Path("movie_id") movieId: Int,
         @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY

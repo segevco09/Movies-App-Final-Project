@@ -23,7 +23,7 @@ data class Movie(
     val popularity: Double,
     val vote_average: Double,
     val vote_count: Int,
-    @SerializedName("poster_path") val posterPath: String,
+    val poster_path: String,
     var favorite: Boolean = false,
     var isUpcoming: Boolean = false,
     var isPopular: Boolean = false

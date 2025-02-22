@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-@Database(entities = [Movie::class], version = 6, exportSchema = false) // ✅ Increased version
+@Database(entities = [Movie::class], version = 7, exportSchema = false) // Increased version
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
 
@@ -22,13 +22,13 @@ abstract class MovieDatabase : RoomDatabase() {
                     MovieDatabase::class.java,
                     "movie_db"
                 )
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6) // ✅ Added new migration
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7) // Added new migration
                     .build()
                     .also { instance = it }
             }
         }
 
-        // ✅ Migration from version 1 to 2
+        // Migration from version 1 to 2
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE movies ADD COLUMN release_date TEXT DEFAULT ''")
@@ -43,7 +43,7 @@ abstract class MovieDatabase : RoomDatabase() {
             }
         }
 
-        // ✅ New Migration from version 2 to 3 (If additional changes are made)
+        // New Migration from version 2 to 3
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE movies ADD COLUMN release_date TEXT NOT NULL DEFAULT ''")
@@ -57,7 +57,7 @@ abstract class MovieDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE movies ADD COLUMN vote_count INTEGER NOT NULL DEFAULT 0")
             }
         }
-        // ✅ Migration from version 3 to 4
+        // Migration from version 3 to 4
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE movies ADD COLUMN favorite INTEGER NOT NULL DEFAULT 0")
@@ -75,6 +75,13 @@ abstract class MovieDatabase : RoomDatabase() {
                 database.execSQL("ALTER TABLE movies ADD COLUMN isPopular INTEGER NOT NULL DEFAULT 0")
             }
         }
+
+        val MIGRATION_6_7 = object : Migration(6, 7) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE movies RENAME COLUMN posterPath TO poster_path")
+            }
+        }
+
 
     }
 }

@@ -1,10 +1,8 @@
 package com.example.movieapp.data
 
 import androidx.lifecycle.LiveData
-import com.example.movieapp.BuildConfig
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.data.local.MovieDao
-import com.example.movieapp.data.remote.MovieApiService
 import com.example.movieapp.data.remote.MovieRemoteDataSource
 import com.example.movieapp.utils.Resource
 import com.example.movieapp.utils.performFetchingAndSaving
@@ -119,11 +117,11 @@ class MovieRepository @Inject constructor(
     }
 
     suspend fun refreshPopularMovies() {
-        fetchPopularMovies() // ✅ Calls existing function to refresh popular movies
+        fetchPopularMovies() // Calls existing function to refresh popular movies
     }
 
     suspend fun refreshUpcomingMovies() {
-        fetchUpcomingMovies() // ✅ Calls existing function to refresh upcoming movies
+        fetchUpcomingMovies() // Calls existing function to refresh upcoming movies
     }
 
     fun getFavoriteMovies(): LiveData<List<Movie>> = localDataSource.getFavoriteMovies()

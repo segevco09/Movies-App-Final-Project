@@ -33,7 +33,7 @@ class MovieAdapter(
             binding.ratingTextView.setText(movie.vote_average.toString())
 
             Glide.with(binding.root)
-                .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)
+                .load("https://image.tmdb.org/t/p/w500" + movie.poster_path)
                 .into(binding.posterImageView)
 
             updateFavoriteIcon(movie.favorite)
@@ -71,10 +71,10 @@ class MovieAdapter(
             val alertDialog = AlertDialog.Builder(binding.root.context)
                 .setView(dialogBinding.root)
                 .setTitle("Edit Movie")
-                .setCancelable(true) // ✅ Allows clicking outside to dismiss
+                .setCancelable(true) // Allows clicking outside to dismiss
                 .create()
 
-            // ✅ Open DatePicker when clicking the release date field
+            // Open DatePicker when clicking the release date field
             dialogBinding.editMovieReleaseDate.setOnClickListener {
                 showDatePickerDialog(dialogBinding.editMovieReleaseDate)
             }
@@ -84,7 +84,7 @@ class MovieAdapter(
                 val newReleaseDate = dialogBinding.editMovieReleaseDate.text.toString().trim()
                 val newVoteAverage = dialogBinding.editMovieRating.text.toString().toDoubleOrNull()
 
-                // ✅ Validation checks
+                // Validation checks
                 if (newTitle.isEmpty()) {
                     dialogBinding.editMovieTitle.error = "Title cannot be empty"
                     return@setOnClickListener
@@ -100,15 +100,15 @@ class MovieAdapter(
                     return@setOnClickListener
                 }
 
-                // ✅ If validation passes, update the movie
+                // If validation passes, update the movie
                 val updatedMovie = movie.copy(
                     title = newTitle,
                     release_date = newReleaseDate,
                     vote_average = newVoteAverage
                 )
 
-                onEditClick(updatedMovie) // ✅ Save changes
-                alertDialog.dismiss() // ✅ Close dialog only if valid
+                onEditClick(updatedMovie) // Save changes
+                alertDialog.dismiss() // Close dialog only if valid
             }
 
 
@@ -144,9 +144,6 @@ class MovieAdapter(
                     updateFavoriteIcon(false)
                     dialog.dismiss()
                 }
-//                .setNegativeButton("Cancel") { dialog, _ ->
-//                    dialog.dismiss()
-//                }
                 .show()
                 .apply {
                     // Style the dialog text colors

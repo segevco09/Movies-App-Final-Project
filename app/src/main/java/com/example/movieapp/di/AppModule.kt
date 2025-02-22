@@ -1,7 +1,6 @@
 package com.example.movieapp.di
 
 import android.content.Context
-import com.example.movieapp.MovieApp
 import com.example.movieapp.data.MovieRepository
 import com.example.movieapp.data.local.MovieDao
 import com.example.movieapp.data.local.MovieDatabase

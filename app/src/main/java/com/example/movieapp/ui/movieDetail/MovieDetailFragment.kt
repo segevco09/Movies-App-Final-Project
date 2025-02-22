@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.FragmentMovieDetailBinding
-import com.example.movieapp.ui.MovieViewModel
 import com.example.movieapp.utils.Resource
 import com.example.movieapp.utils.autoCleared
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
@@ -79,7 +78,7 @@ class MovieDetailFragment : Fragment() {
 
         // Load poster image
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/original${movie.posterPath}")
+            .load("https://image.tmdb.org/t/p/original${movie.poster_path}")
             .into(binding.backdropImageView)
     }
 
