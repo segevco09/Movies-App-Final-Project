@@ -19,8 +19,8 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
     private val viewModel: MovieViewModel by viewModels()
     private var adapter by autoCleared<MovieAdapter>()
 
-    private var _binding: FragmentAllMoviesBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentAllMoviesBinding by autoCleared()
+    private val binding get() = _binding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,10 +37,10 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
                 viewModel.updateFavorite(movie)
             },
             onEditClick = { movie ->
-                // ✅ No edits allowed here, but we must pass it to the adapter
+                // No edits allowed here, but we must pass it to the adapter
                 viewModel.updateMovie(movie)
             },
-            isFavoriteFragment = false // ✅ Editing is disabled in this fragment
+            isFavoriteFragment = false // Editing is disabled in this fragment
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -56,7 +56,9 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
                 is Resource.Error -> {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
-                is Resource.Loading -> { /* Show loading indicator if needed */ }
+                is Resource.Loading -> {
+                    Toast.makeText(context, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
@@ -90,11 +92,7 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
     }
     override fun onResume() {
         super.onResume()
-        viewModel.fetchPopularMovies() // ✅ Forces fresh data from API every time you come back
+        viewModel.fetchPopularMovies() // Forces fresh data from API every time you come back
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

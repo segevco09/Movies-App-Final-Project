@@ -9,18 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentUpcomingMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
 import com.example.movieapp.utils.Resource
 import com.example.movieapp.ui.movieList.MovieAdapter
+import com.example.movieapp.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class UpcomingMoviesFragment : Fragment() {
-    private var _binding: FragmentUpcomingMoviesBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: MovieViewModel by viewModels()
     private lateinit var adapter: MovieAdapter
+
+    private var _binding: FragmentUpcomingMoviesBinding by autoCleared()
+    private val binding get() = _binding
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,12 +44,12 @@ class UpcomingMoviesFragment : Fragment() {
                 )
             },
             onFavoriteClick = { movie ->
-                viewModel.updateFavorite(movie) // ✅ Toggle favorite status
+                viewModel.updateFavorite(movie) // Toggle favorite status
             },
             onEditClick = { movie ->
-                viewModel.updateMovie(movie) // ✅ Edits will only persist if the movie is favorite
+                viewModel.updateMovie(movie) // Edits will only persist if the movie is favorite
             },
-            isFavoriteFragment = false // ✅ Editing is disabled here
+            isFavoriteFragment = false // Editing is disabled here
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -60,7 +64,7 @@ class UpcomingMoviesFragment : Fragment() {
                     Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
-                    // Show a loading indicator if needed
+                    Toast.makeText(context, getString(R.string.loading), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -68,7 +72,7 @@ class UpcomingMoviesFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.fetchUpcomingMovies() // ✅ Triggers API fetch when returning
+        viewModel.fetchUpcomingMovies() // Triggers API fetch when returning
     }
 
     fun filterMovies(query: String) {
@@ -99,8 +103,4 @@ class UpcomingMoviesFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }

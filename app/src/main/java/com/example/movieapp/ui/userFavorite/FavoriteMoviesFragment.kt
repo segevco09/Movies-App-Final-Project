@@ -1,10 +1,7 @@
 package com.example.movieapp.ui.userFavorite
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -12,17 +9,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentFavoriteMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
-import com.example.movieapp.utils.Resource
 import com.example.movieapp.ui.movieList.MovieAdapter
+import com.example.movieapp.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
     private val viewModel: MovieViewModel by viewModels()
-    private var _binding: FragmentFavoriteMoviesBinding? = null
-    private val binding get() = _binding!!
+    private var _binding: FragmentFavoriteMoviesBinding by autoCleared()
+    private val binding get() = _binding
 
-    private lateinit var adapter: MovieAdapter
+
+    private var adapter by autoCleared<MovieAdapter>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -36,12 +34,12 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
                 )
             },
             onFavoriteClick = { movie ->
-                viewModel.updateFavorite(movie) // ✅ Toggle favorite status
+                viewModel.updateFavorite(movie) // Toggle favorite status
             },
             onEditClick = { movie ->
-                viewModel.updateMovie(movie) // ✅ Saves user-edited movie details
+                viewModel.updateMovie(movie) // Saves user-edited movie details
             },
-            isFavoriteFragment = true // ✅ Enables the "Edit" button
+            isFavoriteFragment = true // Enables the "Edit" button
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -79,8 +77,4 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 }
