@@ -18,25 +18,14 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
     val upcomingMovies: LiveData<Resource<List<Movie>>> = repository.getUpcomingMovies()
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()
 
+    // For toggling the favorite status
     fun updateFavorite(movie: Movie) = viewModelScope.launch {
         val updatedMovie = movie.copy(favorite = !movie.favorite)
         repository.updateFavorite(updatedMovie)
     }
 
+    // For editing movie details - no need for validation here
     fun updateMovie(movie: Movie) = viewModelScope.launch {
-        if (movie.title.isBlank()) {
-            Log.e("VALIDATION", "Movie title cannot be empty")
-            return@launch
-        }
-        if (movie.release_date.isBlank()) {
-            Log.e("VALIDATION", "Release date cannot be empty")
-            return@launch
-        }
-        if (movie.vote_average < 0 || movie.vote_average > 10) {
-            Log.e("VALIDATION", "Invalid rating value")
-            return@launch
-        }
-
         repository.updateMovie(movie)
     }
 
