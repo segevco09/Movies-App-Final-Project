@@ -76,7 +76,7 @@ class MovieRepository @Inject constructor(
         }
     )
 
-    suspend fun fetchPopularMovies() {
+    private suspend fun fetchPopularMovies() {
         val result = remoteDataSource.getPopularMovies()
         if (result is Resource.Success) {
             val updatedMovies = result.data!!.movies.map { movie ->
@@ -96,7 +96,7 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchUpcomingMovies() {
+    private suspend fun fetchUpcomingMovies() {
         val result = remoteDataSource.getUpcomingMovies()
         if (result is Resource.Success) {
             val updatedMovies = result.data!!.movies.map { movie ->
