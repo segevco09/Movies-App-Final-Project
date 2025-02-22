@@ -1,6 +1,5 @@
 package com.example.movieapp.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -24,7 +23,7 @@ class MovieViewModel @Inject constructor(private val repository: MovieRepository
         repository.updateFavorite(updatedMovie)
     }
 
-    // For editing movie details - no need for validation here
+    // For editing movie details
     fun updateMovie(movie: Movie) = viewModelScope.launch {
         repository.updateMovie(movie)
     }
