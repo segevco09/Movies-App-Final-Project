@@ -14,7 +14,7 @@ import com.example.movieapp.R
 import com.example.movieapp.data.local.Movie
 import com.example.movieapp.databinding.DialogEditMovieBinding
 import com.example.movieapp.databinding.ItemMovieBinding
-import com.example.movieapp.ui.allMovies.MovieDiffCallback
+import com.example.movieapp.utils.MovieDiffCallback
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
