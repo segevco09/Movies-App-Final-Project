@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,13 +44,22 @@ class MainActivity : AppCompatActivity() {
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 val isDetailFragment = destination.id == R.id.movieDetailFragment
                 setMainUIVisibility(isDetailFragment)
-                if (!isDetailFragment) {
+                
+                if (!isDetailFragment && destination.id in listOf(
+                    R.id.allMoviesFragment,
+                    R.id.upcomingMoviesFragment,
+                    R.id.favoriteMoviesFragment
+                )) {
                     sortAdapter?.setSelectedSort(getString(R.string.regular))
                     getCurrentFragment()?.let { fragment ->
-                        when (fragment) {
-                            is AllMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
-                            is UpcomingMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
-                            is FavoriteMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
+                        try {
+                            when (fragment) {
+                                is AllMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
+                                is UpcomingMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
+                                is FavoriteMoviesFragment -> fragment.sortMovies(getString(R.string.regular))
+                            }
+                        } catch (e: IllegalStateException) {
+                            // Fragment is being destroyed, ignore the sort request
                         }
                     }
                 }
@@ -129,10 +139,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getCurrentFragment() = 
+    private fun getCurrentFragment(): Fragment? = 
         supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
-            ?.let { it as? androidx.navigation.fragment.NavHostFragment }
             ?.childFragmentManager
             ?.fragments
             ?.firstOrNull()
+            ?.takeIf { it.isAdded && !it.isRemoving }
 }
