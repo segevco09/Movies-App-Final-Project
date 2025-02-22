@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class UpcomingMoviesFragment : Fragment() {
     private val viewModel: MovieViewModel by viewModels()
-    private lateinit var adapter: MovieAdapter
+    private var adapter by autoCleared<MovieAdapter>()
 
     private var _binding: FragmentUpcomingMoviesBinding by autoCleared()
     private val binding get() = _binding
