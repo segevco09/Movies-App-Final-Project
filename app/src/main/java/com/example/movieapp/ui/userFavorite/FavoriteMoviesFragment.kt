@@ -65,10 +65,10 @@ class FavoriteMoviesFragment : Fragment(R.layout.fragment_favorite_movies) {
     fun sortMovies(sortType: String) {
         val originalList = viewModel.favoriteMovies.value ?: emptyList()
         val sortedList = when (sortType) {
-            getString(R.string.high_rate) -> originalList.sortedByDescending { it.vote_average }
-            getString(R.string.low_rate) -> originalList.sortedBy { it.vote_average }
-            getString(R.string.latest) -> originalList.sortedByDescending { it.release_date }
-            getString(R.string.oldest) -> originalList.sortedBy { it.release_date }
+            getString(R.string.high_rate) -> originalList.sortedByDescending { it.voteAverage }
+            getString(R.string.low_rate) -> originalList.sortedBy { it.voteAverage }
+            getString(R.string.latest) -> originalList.sortedByDescending { it.releaseDate }
+            getString(R.string.oldest) -> originalList.sortedBy { it.releaseDate }
             getString(R.string.regular) -> originalList
             else -> originalList
         }

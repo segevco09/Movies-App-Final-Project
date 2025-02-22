@@ -73,12 +73,12 @@ class MovieDetailFragment : Fragment() {
     private fun updateUI(movie: Movie) {
         binding.titleTextView.text = movie.title
         binding.overviewTextView.text = movie.overview
-        binding.releaseDateTextView.text = movie.release_date
-        binding.ratingTextView.text = "★ ${movie.vote_average}"
+        binding.releaseDateTextView.text = movie.releaseDate
+        binding.ratingTextView.text = "★ ${movie.voteAverage}"
 
         // Load poster image
         Glide.with(this)
-            .load("https://image.tmdb.org/t/p/original${movie.poster_path}")
+            .load("https://image.tmdb.org/t/p/original${movie.posterPath}")
             .into(binding.backdropImageView)
     }
 

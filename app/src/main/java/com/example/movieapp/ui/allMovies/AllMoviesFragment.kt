@@ -61,10 +61,10 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
                 is Resource.Success -> {
                     if (!it.data.isNullOrEmpty()) {
                         val sortedList = when (currentSort) {
-                            getString(R.string.high_rate) -> it.data.sortedByDescending { movie -> movie.vote_average }
-                            getString(R.string.low_rate) -> it.data.sortedBy { movie -> movie.vote_average }
-                            getString(R.string.latest) -> it.data.sortedByDescending { movie -> movie.release_date }
-                            getString(R.string.oldest) -> it.data.sortedBy { movie -> movie.release_date }
+                            getString(R.string.high_rate) -> it.data.sortedByDescending { movie -> movie.voteAverage }
+                            getString(R.string.low_rate) -> it.data.sortedBy { movie -> movie.voteAverage }
+                            getString(R.string.latest) -> it.data.sortedByDescending { movie -> movie.releaseDate }
+                            getString(R.string.oldest) -> it.data.sortedBy { movie -> movie.releaseDate }
                             else -> it.data
                         }
                         adapter.submitList(sortedList)
@@ -97,10 +97,10 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         currentSort = sortType
         val originalList = viewModel.popularMovies.value?.data ?: emptyList()
         val sortedList = when (sortType) {
-            getString(R.string.high_rate) -> originalList.sortedByDescending { it.vote_average }
-            getString(R.string.low_rate) -> originalList.sortedBy { it.vote_average }
-            getString(R.string.latest) -> originalList.sortedByDescending { it.release_date }
-            getString(R.string.oldest) -> originalList.sortedBy { it.release_date }
+            getString(R.string.high_rate) -> originalList.sortedByDescending { it.voteAverage }
+            getString(R.string.low_rate) -> originalList.sortedBy { it.voteAverage }
+            getString(R.string.latest) -> originalList.sortedByDescending { it.releaseDate }
+            getString(R.string.oldest) -> originalList.sortedBy { it.releaseDate }
             getString(R.string.regular) -> originalList
             else -> originalList
         }

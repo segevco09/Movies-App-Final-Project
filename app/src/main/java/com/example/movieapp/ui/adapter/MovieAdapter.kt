@@ -30,11 +30,11 @@ class MovieAdapter(
 
         fun bind(movie: Movie) {
             binding.titleTextView.setText(movie.title)
-            binding.releaseDateTextView.setText(movie.release_date)
-            binding.ratingTextView.setText(movie.vote_average.toString())
+            binding.releaseDateTextView.setText(movie.releaseDate)
+            binding.ratingTextView.setText(movie.voteAverage.toString())
 
             Glide.with(binding.root)
-                .load("https://image.tmdb.org/t/p/w500" + movie.poster_path)
+                .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)
                 .into(binding.posterImageView)
 
             updateFavoriteIcon(movie.favorite)
@@ -66,8 +66,8 @@ class MovieAdapter(
 
             // Set current values
             dialogBinding.editMovieTitle.setText(movie.title)
-            dialogBinding.editMovieReleaseDate.text = movie.release_date // Use TextView now
-            dialogBinding.editMovieRating.setText(movie.vote_average.toString())
+            dialogBinding.editMovieReleaseDate.text = movie.releaseDate // Use TextView now
+            dialogBinding.editMovieRating.setText(movie.voteAverage.toString())
 
             val alertDialog = AlertDialog.Builder(binding.root.context)
                 .setView(dialogBinding.root)
@@ -104,8 +104,8 @@ class MovieAdapter(
                 // If validation passes, update the movie
                 val updatedMovie = movie.copy(
                     title = newTitle,
-                    release_date = newReleaseDate,
-                    vote_average = newVoteAverage
+                    releaseDate = newReleaseDate,
+                    voteAverage = newVoteAverage
                 )
 
                 onEditClick(updatedMovie) // Save changes
