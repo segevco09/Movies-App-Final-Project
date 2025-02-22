@@ -101,13 +101,14 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
 
-    // Google's media player
-    implementation("com.google.android.exoplayer:exoplayer:2.19.0")
-
     implementation("androidx.cardview:cardview:1.0.0")
 
     // Youtube's player
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
+
+    // Exoplayer media player
+    implementation("androidx.media3:media3-exoplayer:1.0.0")
+    implementation("androidx.media3:media3-ui:1.0.0")
 
 
 
