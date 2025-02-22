@@ -19,13 +19,23 @@ import dagger.hilt.android.AndroidEntryPoint
 class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
     private val viewModel: MovieViewModel by viewModels()
     private var adapter by autoCleared<MovieAdapter>()
+    private var currentSort: String = ""
 
     private var _binding: FragmentAllMoviesBinding by autoCleared()
     private val binding get() = _binding
 
+    // Add this companion object for the key
+    companion object {
+        private const val KEY_CURRENT_SORT = "current_sort"
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAllMoviesBinding.bind(view)
+
+        // Restore sort state or use default
+        currentSort = savedInstanceState?.getString(KEY_CURRENT_SORT) 
+            ?: getString(R.string.regular)
 
         adapter = MovieAdapter(
             onMovieClick = { movie ->
@@ -38,10 +48,9 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
                 viewModel.updateFavorite(movie)
             },
             onEditClick = { movie ->
-                // No edits allowed here, but we must pass it to the adapter
                 viewModel.updateMovie(movie)
             },
-            isFavoriteFragment = false // Editing is disabled in this fragment
+            isFavoriteFragment = false
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
@@ -51,7 +60,14 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
             when (it) {
                 is Resource.Success -> {
                     if (!it.data.isNullOrEmpty()) {
-                        adapter.submitList(it.data)
+                        val sortedList = when (currentSort) {
+                            getString(R.string.high_rate) -> it.data.sortedByDescending { movie -> movie.vote_average }
+                            getString(R.string.low_rate) -> it.data.sortedBy { movie -> movie.vote_average }
+                            getString(R.string.latest) -> it.data.sortedByDescending { movie -> movie.release_date }
+                            getString(R.string.oldest) -> it.data.sortedBy { movie -> movie.release_date }
+                            else -> it.data
+                        }
+                        adapter.submitList(sortedList)
                     }
                 }
                 is Resource.Error -> {
@@ -78,13 +94,15 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
     }
 
     fun sortMovies(sortType: String) {
+        currentSort = sortType
         val originalList = viewModel.popularMovies.value?.data ?: emptyList()
         val sortedList = when (sortType) {
-            "High Rate" -> originalList.sortedByDescending { it.vote_average }
-            "Low Rate" -> originalList.sortedBy { it.vote_average }
-            "Latest" -> originalList.sortedByDescending { it.release_date }
-            "Oldest" -> originalList.sortedBy { it.release_date }
-            else -> originalList // Default - Regular
+            getString(R.string.high_rate) -> originalList.sortedByDescending { it.vote_average }
+            getString(R.string.low_rate) -> originalList.sortedBy { it.vote_average }
+            getString(R.string.latest) -> originalList.sortedByDescending { it.release_date }
+            getString(R.string.oldest) -> originalList.sortedBy { it.release_date }
+            getString(R.string.regular) -> originalList
+            else -> originalList
         }
         adapter.submitList(sortedList)
         binding.recyclerView.post {
@@ -96,4 +114,9 @@ class AllMoviesFragment : Fragment(R.layout.fragment_all_movies) {
         viewModel.fetchPopularMovies() // Forces fresh data from API every time you come back
     }
 
+    // Add this method to save state
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_CURRENT_SORT, currentSort)
+    }
 }

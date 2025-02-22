@@ -91,11 +91,12 @@ class UpcomingMoviesFragment : Fragment() {
     fun sortMovies(sortType: String) {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
         val sortedList = when (sortType) {
-            "High Rate" -> originalList.sortedByDescending { it.vote_average }
-            "Low Rate" -> originalList.sortedBy { it.vote_average }
-            "Latest" -> originalList.sortedByDescending { it.release_date }
-            "Oldest" -> originalList.sortedBy { it.release_date }
-            else -> originalList // Default - Regular
+            getString(R.string.high_rate) -> originalList.sortedByDescending { it.vote_average }
+            getString(R.string.low_rate) -> originalList.sortedBy { it.vote_average }
+            getString(R.string.latest) -> originalList.sortedByDescending { it.release_date }
+            getString(R.string.oldest) -> originalList.sortedBy { it.release_date }
+            getString(R.string.regular) -> originalList
+            else -> originalList
         }
         adapter.submitList(sortedList)
         binding.recyclerView.post {
