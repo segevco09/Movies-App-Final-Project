@@ -11,8 +11,8 @@ import androidx.navigation.NavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.databinding.ActivityMainBinding
-import com.example.movieapp.ui.movieDetail.sort_selection.SortAdapter
-import com.example.movieapp.ui.movieList.AllMoviesFragment
+import com.example.movieapp.ui.adapter.SortAdapter
+import com.example.movieapp.ui.allMovies.AllMoviesFragment
 import com.example.movieapp.ui.upcomingMovies.UpcomingMoviesFragment
 import com.example.movieapp.ui.userFavorite.FavoriteMoviesFragment
 import dagger.hilt.android.AndroidEntryPoint

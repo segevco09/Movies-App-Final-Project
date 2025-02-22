@@ -13,7 +13,7 @@ import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentUpcomingMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
 import com.example.movieapp.utils.Resource
-import com.example.movieapp.ui.movieList.MovieAdapter
+import com.example.movieapp.ui.adapter.MovieAdapter
 import com.example.movieapp.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 

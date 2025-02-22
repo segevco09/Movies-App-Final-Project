@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.movieList
+package com.example.movieapp.ui.allMovies
 
 import android.os.Bundle
 import android.view.View
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movieapp.R
 import com.example.movieapp.databinding.FragmentAllMoviesBinding
 import com.example.movieapp.ui.MovieViewModel
+import com.example.movieapp.ui.adapter.MovieAdapter
 import com.example.movieapp.utils.autoCleared
 import com.example.movieapp.utils.Resource
 import dagger.hilt.android.AndroidEntryPoint

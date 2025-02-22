@@ -1,4 +1,4 @@
-package com.example.movieapp.ui.movieDetail.sort_selection
+package com.example.movieapp.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -11,7 +11,7 @@ import com.example.movieapp.R
 class SortAdapter(
     private val sortOptions: List<String>,
     private val listener: OnSortClickListener,
-    private var selectedSort: String = "Regular" // ✅ ברירת מחדל למיון
+    private var selectedSort: String = "Regular"
 ) : RecyclerView.Adapter<SortAdapter.SortViewHolder>() {
 
     private var selectedPosition: Int = sortOptions.indexOf(selectedSort)
@@ -44,7 +44,7 @@ class SortAdapter(
         // Handle click event
         holder.itemView.setOnClickListener {
             val previousPosition = selectedPosition
-            selectedPosition = holder.adapterPosition  // ✅ מתעדכן עם adapterPosition
+            selectedPosition = holder.adapterPosition
 
             // Notify RecyclerView to update the item views
             notifyItemChanged(previousPosition)
@@ -55,22 +55,20 @@ class SortAdapter(
         }
     }
 
-    // ✅ פונקציה לאיפוס המיון לברירת מחדל ולהחזרת הסימון ל-"Regular"
+
     fun resetSort() {
         val previousPosition = selectedPosition
-        selectedPosition = sortOptions.indexOf("Regular") // ✅ מאפס לברירת מחדל
+        selectedPosition = sortOptions.indexOf("Regular")
 
-        // ✅ אם previousPosition שונה מהחדש, עדכן רק את השינויים הרלוונטיים
         if (previousPosition != selectedPosition) {
             notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
         } else {
-            notifyDataSetChanged() // ✅ מרענן את כל הרשימה אם אין שינוי במיקום
+            notifyDataSetChanged()
         }
     }
 
 
-    // ✅ פונקציה לעדכון ה- selectedSort בצורה נכונה
     fun setSelectedSort(sortType: String) {
 
         val previousPosition = selectedPosition
