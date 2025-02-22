@@ -11,24 +11,28 @@ interface MovieApiService {
 
     @GET("popular")
     suspend fun getPopularMovies(
-        @Query("api_key") apiKey: String =  BuildConfig.TMDB_API_KEY
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("language") language: String
     ): Response<MovieResponse>
 
     @GET("upcoming")
     suspend fun getUpcomingMovies(
-        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("language") language: String
     ): Response<MovieResponse>
 
     @GET("{movie_id}")
     suspend fun getMovieById(
         @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String =  BuildConfig.TMDB_API_KEY
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("language") language: String
     ): Response<Movie>
 
     @GET("{movie_id}/videos")
     suspend fun getMovieVideos(
         @Path("movie_id") movieId: Int,
-        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY
+        @Query("api_key") apiKey: String = BuildConfig.TMDB_API_KEY,
+        @Query("language") language: String
     ): Response<VideoResponse>
 
 }
