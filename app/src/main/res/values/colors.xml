@@ -6,8 +6,12 @@
     <color name="light_blue">#bde6f0</color>
     <color name="blue">#619dc2</color>
     <color name="gray">#619dc2</color>
+    <color name="pink">#DBADDE</color>
     <color name="dark_background">#121212</color>
+    <color name="light_card_background"> #1A1A1A</color>
     <color name="light_gray">#B3FFFFFF</color>
+    <color name="gradient_overlay_dark">#CC000000</color>
+    <color name="gradient_overlay_light">#66000000</color>
     <color name="strong_gray">#404040</color>
     <color name="light_black"> #1A1A1A</color>
     <color name="yellow">#FFC107</color>
