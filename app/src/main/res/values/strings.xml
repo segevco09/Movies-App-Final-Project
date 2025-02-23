@@ -32,4 +32,5 @@
     <string name="select_release_date">Please select a release date</string>
     <string name="rating_error_message">Rating must be between 0 and 10</string>
     <string name="poster">poster</string>
+    <string name="network_call_failed">Network call failed</string>
 </resources>

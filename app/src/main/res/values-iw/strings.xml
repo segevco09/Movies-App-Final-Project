@@ -32,5 +32,5 @@
     <string name="select_release_date">אנא בחר תאריך יציאת הסרט</string>
     <string name="rating_error_message">דירוג חייב להיות בין 0 ל-10</string>
     <string name="poster">פוסטר</string>
-
+    <string name="network_call_failed">בקשת הרשת נכשלה</string>
 </resources>

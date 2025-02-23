@@ -50,9 +50,10 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMovieRemoteDataSource(
-        movieApiService: MovieApiService
+        movieApiService: MovieApiService,
+        @ApplicationContext context: Context
     ): MovieRemoteDataSource {
-        return MovieRemoteDataSource(movieApiService)
+        return MovieRemoteDataSource(movieApiService, context)
     }
 
     @Singleton
