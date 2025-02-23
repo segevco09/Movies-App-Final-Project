@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -23,10 +24,14 @@
         <EditText
             android:id="@+id/editMovieTitle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/edit_text_background"
             android:hint="@string/enter_movie_name"
+            android:importantForAutofill="yes"
+            android:autofillHints="name"
+            android:inputType="textCapSentences"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textColor="@color/white"
             android:textColorHint="@color/light_gray"
@@ -35,62 +40,66 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/release_date"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/editMovieReleaseDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/edit_text_background"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="start|center_vertical"
             android:hint="@string/select_a_date"
+            android:minHeight="48dp"
+            android:padding="12dp"
             android:textColor="@color/white"
             android:textColorHint="@color/light_gray"
-            android:textSize="16sp"
-            android:padding="12dp"
-            android:gravity="start|center_vertical"
-            android:focusable="true"
-            android:clickable="true" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@string/rating"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/editMovieRating"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/edit_text_background"
             android:hint="@string/enter_rating_0_10"
+            android:importantForAutofill="yes"
+            android:autofillHints="rating"
             android:inputType="numberDecimal"
-            android:maxLength="4"
-            android:maxLines="1"
+            android:maxLength="5"
+            android:minHeight="48dp"
             android:padding="12dp"
             android:textColor="@color/white"
             android:textColorHint="@color/light_gray"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmChangesButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:backgroundTint="@color/strong_gray"
+            android:minHeight="48dp"
             android:paddingVertical="12dp"
             android:text="@string/confirm_changes"
+            android:textColor="@color/white"
             android:textSize="16sp"
-            app:cornerRadius="12dp"
-            android:backgroundTint="@color/strong_gray"
-            android:textColor="@color/white"/>
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

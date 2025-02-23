@@ -13,7 +13,7 @@
     <string name="search_bar">חפש סרט…</string>
     <string name="movie_name">שם סרט</string>
     <string name="enter_movie_name">הכנס שם סרט</string>
-    <string name="release_date">תאריך יציאהe</string>
+    <string name="release_date">תאריך יציאה</string>
     <string name="select_a_date">בחר תאריך</string>
     <string name="rating">דירוג</string>
     <string name="enter_rating_0_10">הכנס דירוג (0 עד 10)</string>
@@ -27,6 +27,9 @@
     <string name="dialog_remove_message">האם אתה בטוח שברצונך להסיר את הסרט הזה מרשימת המועדפים? השינויים שביצעת לא יישמרו</string>
     <string name="dialog_remove_button">הסרה</string>
     <string name="rating_with_star">★ %s</string>
-
+    <string name="edit_movie">עריכת סרט</string>
+    <string name="title_cannot_be_empty">שם הסרט לא יכול להיות ריק</string>
+    <string name="select_release_date">אנא בחר תאריך יציאת הסרט</string>
+    <string name="rating_error_message">דירוג חייב להיות בין 0 ל-10</string>
 
 </resources>

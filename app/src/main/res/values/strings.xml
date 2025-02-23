@@ -27,4 +27,10 @@
     <string name="dialog_remove_message">Are you sure you want to remove this movie from the favorite list? Your changes will not be saved</string>
     <string name="dialog_remove_button">Remove</string>
     <string name="rating_with_star">★ %s</string>
+    <string name="edit_movie">Edit Movie</string>
+    <string name="title_cannot_be_empty">Movie name cannot be empty</string>
+    <string name="select_release_date">Please select a release date</string>
+    <string name="rating_error_message">Rating must be between 0 and 10</string>
+
+
 </resources>

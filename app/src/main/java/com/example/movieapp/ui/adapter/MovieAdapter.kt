@@ -77,7 +77,7 @@ class MovieAdapter(
 
             val alertDialog = AlertDialog.Builder(binding.root.context)
                 .setView(dialogBinding.root)
-                .setTitle("Edit Movie")
+                .setTitle(binding.root.context.getString(R.string.edit_movie))
                 .setCancelable(true) // Allows clicking outside to dismiss
                 .create()
 
@@ -93,17 +93,18 @@ class MovieAdapter(
 
                 // Validation checks
                 if (newTitle.isEmpty()) {
-                    dialogBinding.editMovieTitle.error = "Title cannot be empty"
+                    dialogBinding.editMovieTitle.error =
+                        binding.root.context.getString(R.string.title_cannot_be_empty)
                     return@setOnClickListener
                 }
 
                 if (newReleaseDate.isEmpty()) {
-                    Toast.makeText(binding.root.context, "Please select a release date", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(binding.root.context, binding.root.context.getString(R.string.select_release_date), Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
 
                 if (newVoteAverage == null || newVoteAverage < 0 || newVoteAverage > 10) {
-                    dialogBinding.editMovieRating.error = "Rating must be between 0 and 10"
+                    dialogBinding.editMovieRating.error = binding.root.context.getString(R.string.rating_error_message)
                     return@setOnClickListener
                 }
 

@@ -46,6 +46,7 @@
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="16dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/search"
                 app:tint="@color/light_gray" />
 
@@ -58,6 +59,7 @@
                 android:background="@android:color/transparent"
                 android:gravity="center_vertical"
                 android:hint="@string/search_bar"
+                android:inputType="text"
                 android:textColorHint="@color/light_gray"
                 android:textColor="@color/white"
                 android:imeOptions="actionSearch"
