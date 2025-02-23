@@ -12,7 +12,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieViewModel @Inject constructor(private val repository: MovieRepository) : ViewModel() {
-
     val popularMovies: LiveData<Resource<List<Movie>>> = repository.getPopularMovies()
     val upcomingMovies: LiveData<Resource<List<Movie>>> = repository.getUpcomingMovies()
     val favoriteMovies: LiveData<List<Movie>> = repository.getFavoriteMovies()

@@ -10,4 +10,20 @@
     <string name="oldest">Oldest</string>
     <string name="regular">Regular</string>
     <string name="rating_format">%.3f</string>
+    <string name="search_bar">Search for a movie</string>
+    <string name="movie_name">Movie Name</string>
+    <string name="enter_movie_name">Enter movie name</string>
+    <string name="release_date">Release Date</string>
+    <string name="select_a_date">Select a date</string>
+    <string name="rating">Rating</string>
+    <string name="enter_rating_0_10">Enter rating (0 to 10)</string>
+    <string name="confirm_changes">Confirm Changes</string>
+    <string name="all_movies">All Movies</string>
+    <string name="favorite_movies">Favorite Movies</string>
+    <string name="no_favorite_movies_yet">No favorite movies yet</string>
+    <string name="overview">Overview</string>
+    <string name="upcoming_movies">Upcoming Movies</string>
+    <string name="dialog_remove_title">Remove from Favorites</string>
+    <string name="dialog_remove_message">Are you sure you want to remove this movie from the favorite list? Your changes will not be saved</string>
+    <string name="dialog_remove_button">Remove</string>
 </resources>

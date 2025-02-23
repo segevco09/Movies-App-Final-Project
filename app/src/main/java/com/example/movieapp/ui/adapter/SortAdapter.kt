@@ -1,5 +1,6 @@
 package com.example.movieapp.ui.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,9 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.movieapp.R
 
 class SortAdapter(
+    private val context: Context,
     private val sortOptions: List<String>,
     private val listener: OnSortClickListener,
-    selectedSort: String = "Regular"
+    selectedSort: String = context.getString(R.string.regular)
 ) : RecyclerView.Adapter<SortAdapter.SortViewHolder>() {
 
     private var selectedPosition: Int = sortOptions.indexOf(selectedSort)

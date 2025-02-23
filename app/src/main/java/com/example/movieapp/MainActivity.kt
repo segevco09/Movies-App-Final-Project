@@ -106,17 +106,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSortRecyclerView() {
-        val sortOptions = listOf(
-            getString(R.string.high_rate),
-            getString(R.string.low_rate),
-            getString(R.string.latest),
-            getString(R.string.oldest),
-            getString(R.string.regular)
-        )
-
         sortAdapter = SortAdapter(
-            sortOptions,
-            object : SortAdapter.OnSortClickListener {
+            context = this,
+            sortOptions = listOf(
+                getString(R.string.high_rate),
+                getString(R.string.low_rate),
+                getString(R.string.latest),
+                getString(R.string.oldest),
+                getString(R.string.regular)
+            ),
+            listener = object : SortAdapter.OnSortClickListener {
                 override fun onSortClick(sortType: String) {
                     sortMovies(sortType)
                 }

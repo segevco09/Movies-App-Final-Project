@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Upcoming Movies"
+            android:text="@string/upcoming_movies"
             android:textColor="@color/white"
             android:textSize="28sp"
             android:textStyle="bold"

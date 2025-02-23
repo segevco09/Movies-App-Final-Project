@@ -10,4 +10,21 @@
     <string name="oldest">ישן ביותר</string>
     <string name="regular">רגיל</string>
     <string name="rating_format">%.3f</string>
+    <string name="search_bar">חיפוש סרט:</string>
+    <string name="movie_name">שם סרט</string>
+    <string name="enter_movie_name">הכנס שם סרט</string>
+    <string name="release_date">תאריך יציאהe</string>
+    <string name="select_a_date">בחר תאריך</string>
+    <string name="rating">דירוג</string>
+    <string name="enter_rating_0_10">הכנס דירוג (0 עד 10)</string>
+    <string name="confirm_changes">אשר שינויים</string>
+    <string name="all_movies">כל הסרטים</string>
+    <string name="favorite_movies">סרטים מועדפים</string>
+    <string name="no_favorite_movies_yet">אין עדיין סרטים מועדפים</string>
+    <string name="overview">סקירה</string>
+    <string name="upcoming_movies">מגיעים בקרוב</string>
+    <string name="dialog_remove_title">הסרה מרשימת המועדפים</string>
+    <string name="dialog_remove_message">האם אתה בטוח שברצונך להסיר את הסרט הזה מרשימת המועדפים? השינויים שביצעת לא יישמרו</string>
+    <string name="dialog_remove_button">הסרה</string>
+
 </resources>

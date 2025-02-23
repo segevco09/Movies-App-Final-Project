@@ -4,15 +4,15 @@
     <item
         android:id="@+id/allMoviesFragment"
         android:icon="@drawable/list_icon"
-        android:title="All Movies" />
+        android:title="@string/all_movies" />
 
     <item
         android:id="@+id/upcomingMoviesFragment"
         android:icon="@drawable/coming_soon_icon"
-        android:title="Upcoming Movies" />
+        android:title="@string/upcoming_movies" />
 
     <item
         android:id="@+id/favoriteMoviesFragment"
         android:icon="@drawable/favourite_icon"
-        android:title="Favorites" />
+        android:title="@string/favorite_movies" />
 </menu>

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -148,14 +149,14 @@ class MovieAdapter(
         private fun showRemoveFromFavoritesDialog(movie: Movie) {
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomAlertDialog)
                 .setBackground(
-                    androidx.appcompat.content.res.AppCompatResources.getDrawable(
+                    AppCompatResources.getDrawable(
                         binding.root.context,
                         R.drawable.edit_text_background
                     )
                 )
-                .setTitle("Remove from Favorites")
-                .setMessage("Are you sure you want to remove this movie from the favorite list? Your changes will not be saved.")
-                .setPositiveButton("Remove") { dialog, _ ->
+                .setTitle(binding.root.context.getString(R.string.dialog_remove_title))
+                .setMessage(binding.root.context.getString(R.string.dialog_remove_message))
+                .setPositiveButton(binding.root.context.getString(R.string.dialog_remove_button)) { dialog, _ ->
                     val updatedMovie = movie.copy(favorite = false)
                     onFavoriteClick(updatedMovie)
                     updateFavoriteIcon(false)
@@ -168,6 +169,7 @@ class MovieAdapter(
                     getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(context.getColor(R.color.light_gray))
                 }
         }
+
 
         private fun updateFavoriteIcon(isFavorite: Boolean) {
             binding.favoriteButton.setImageResource(
