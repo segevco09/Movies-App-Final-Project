@@ -11,7 +11,7 @@ import com.example.movieapp.R
 class SortAdapter(
     private val sortOptions: List<String>,
     private val listener: OnSortClickListener,
-    private var selectedSort: String = "Regular"
+    selectedSort: String = "Regular"
 ) : RecyclerView.Adapter<SortAdapter.SortViewHolder>() {
 
     private var selectedPosition: Int = sortOptions.indexOf(selectedSort)
@@ -44,7 +44,7 @@ class SortAdapter(
         // Handle click event
         holder.itemView.setOnClickListener {
             val previousPosition = selectedPosition
-            selectedPosition = holder.adapterPosition
+            selectedPosition = holder.bindingAdapterPosition
 
             // Notify RecyclerView to update the item views
             notifyItemChanged(previousPosition)
@@ -56,29 +56,17 @@ class SortAdapter(
     }
 
 
-    fun resetSort() {
-        val previousPosition = selectedPosition
-        selectedPosition = sortOptions.indexOf("Regular")
-
-        if (previousPosition != selectedPosition) {
-            notifyItemChanged(previousPosition)
-            notifyItemChanged(selectedPosition)
-        } else {
-            notifyDataSetChanged()
-        }
-    }
-
-
     fun setSelectedSort(sortType: String) {
-
+        val newPosition = sortOptions.indexOf(sortType)
+        if (newPosition == -1) return  // Guard against invalid sort type
+        
         val previousPosition = selectedPosition
-        selectedPosition = sortOptions.indexOf(sortType)
+        selectedPosition = newPosition
 
+        // Only notify the items that actually changed
         if (previousPosition != selectedPosition) {
             notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
-        } else {
-            notifyDataSetChanged()
         }
     }
 
