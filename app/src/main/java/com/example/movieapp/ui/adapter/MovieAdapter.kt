@@ -29,9 +29,12 @@ class MovieAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(movie: Movie) {
-            binding.titleTextView.setText(movie.title)
-            binding.releaseDateTextView.setText(movie.releaseDate)
-            binding.ratingTextView.setText(movie.voteAverage.toString())
+            binding.titleTextView.text = movie.title
+            binding.releaseDateTextView.text = movie.releaseDate
+            binding.ratingTextView.text = itemView.context.getString(
+                R.string.rating_format,
+                movie.voteAverage
+            )
 
             Glide.with(binding.root)
                 .load("https://image.tmdb.org/t/p/w500" + movie.posterPath)
@@ -47,7 +50,7 @@ class MovieAdapter(
                     showRemoveFromFavoritesDialog(movie)
                 } else {
                     // Regular favorite toggle for non-favorite items or in other fragments
-                    val updatedMovie = movie.copy(favorite = !movie.favorite)
+                    val updatedMovie = movie.copy(favorite = true)
                     onFavoriteClick(updatedMovie)
                     updateFavoriteIcon(updatedMovie.favorite)
                 }
@@ -66,8 +69,10 @@ class MovieAdapter(
 
             // Set current values
             dialogBinding.editMovieTitle.setText(movie.title)
-            dialogBinding.editMovieReleaseDate.text = movie.releaseDate // Use TextView now
-            dialogBinding.editMovieRating.setText(movie.voteAverage.toString())
+            dialogBinding.editMovieReleaseDate.text = movie.releaseDate
+            dialogBinding.editMovieRating.setText(
+                itemView.context.getString(R.string.rating_format, movie.voteAverage)
+            )
 
             val alertDialog = AlertDialog.Builder(binding.root.context)
                 .setView(dialogBinding.root)
@@ -125,7 +130,13 @@ class MovieAdapter(
             val datePickerDialog = DatePickerDialog(
                 textView.context,
                 { _, selectedYear, selectedMonth, selectedDay ->
-                    val formattedDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth + 1, selectedDay)
+                    val formattedDate = String.format(
+                        Locale.US,  // Using US locale for consistent YYYY-MM-DD format
+                        "%04d-%02d-%02d",
+                        selectedYear,
+                        selectedMonth + 1,
+                        selectedDay
+                    )
                     textView.text = formattedDate
                 },
                 year, month, day
@@ -136,7 +147,12 @@ class MovieAdapter(
 
         private fun showRemoveFromFavoritesDialog(movie: Movie) {
             MaterialAlertDialogBuilder(binding.root.context, R.style.CustomAlertDialog)
-                .setBackground(binding.root.context.getDrawable(R.drawable.edit_text_background))
+                .setBackground(
+                    androidx.appcompat.content.res.AppCompatResources.getDrawable(
+                        binding.root.context,
+                        R.drawable.edit_text_background
+                    )
+                )
                 .setTitle("Remove from Favorites")
                 .setMessage("Are you sure you want to remove this movie from the favorite list? Your changes will not be saved.")
                 .setPositiveButton("Remove") { dialog, _ ->

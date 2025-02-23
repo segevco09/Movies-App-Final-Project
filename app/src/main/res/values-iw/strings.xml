@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="favorite_button_description">לחץ להוספה למועדפים</string>
-    <string name="loading">טוען...</string>
+    <string name="loading">טוען…</string>
     <string name="trailer_not_available">קדימון לא זמין</string>
     <string name="failed_to_load_movie_details">טעינת פרטי הסרט נכשלה</string>
     <string name="high_rate">דירוג גבוה</string>
@@ -9,4 +9,5 @@
     <string name="latest">חדש ביותר</string>
     <string name="oldest">ישן ביותר</string>
     <string name="regular">רגיל</string>
+    <string name="rating_format">%.3f</string>
 </resources>
