@@ -72,7 +72,7 @@ class UpcomingMoviesFragment : Fragment(R.layout.fragment_upcoming_movies) {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
-                    Toast.makeText(context, getString(R.string.loading), Toast.LENGTH_SHORT).show()
+                    // Do nothing during loading
                 }
             }
         }
