@@ -106,12 +106,6 @@ dependencies {
     // Youtube's player
     implementation("com.pierfrancescosoffritti.androidyoutubeplayer:core:12.1.0")
 
-    // Exoplayer media player
-    implementation("androidx.media3:media3-exoplayer:1.0.0")
-    implementation("androidx.media3:media3-ui:1.0.0")
-
-
-
 }
 
 
