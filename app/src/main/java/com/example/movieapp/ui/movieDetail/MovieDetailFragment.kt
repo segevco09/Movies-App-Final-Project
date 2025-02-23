@@ -89,7 +89,7 @@ class MovieDetailFragment : Fragment() {
         val youTubePlayerView: YouTubePlayerView = binding.youtubePlayerView
         lifecycle.addObserver(youTubePlayerView)
 
-        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+        youTubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(videoId, 0f)
             }

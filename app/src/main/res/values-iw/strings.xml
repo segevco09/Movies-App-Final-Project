@@ -9,7 +9,7 @@
     <string name="latest">חדש ביותר</string>
     <string name="oldest">ישן ביותר</string>
     <string name="regular">רגיל</string>
-    <string name="rating_format">%.3f</string>
+    <string name="rating_format">%.2f</string>
     <string name="search_bar">חפש סרט…</string>
     <string name="movie_name">שם סרט</string>
     <string name="enter_movie_name">הכנס שם סרט</string>

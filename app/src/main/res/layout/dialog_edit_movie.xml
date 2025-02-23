@@ -81,7 +81,7 @@
             android:importantForAutofill="yes"
             android:autofillHints="rating"
             android:inputType="numberDecimal"
-            android:maxLength="5"
+            android:maxLength="4"
             android:minHeight="48dp"
             android:padding="12dp"
             android:textColor="@color/white"

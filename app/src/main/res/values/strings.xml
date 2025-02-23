@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Movie App</string>
+    <string name="app_name" translatable="false">Your Movies Choice</string>
     <string name="favorite_button_description">Click for adding to favorite</string>
     <string name="loading">Loading…</string>
     <string name="trailer_not_available">Trailer not available</string>
@@ -9,7 +9,7 @@
     <string name="latest">Latest</string>
     <string name="oldest">Oldest</string>
     <string name="regular">Regular</string>
-    <string name="rating_format">%.3f</string>
+    <string name="rating_format">%.2f</string>
     <string name="search_bar">Search for a movie…</string>
     <string name="movie_name">Movie Name</string>
     <string name="enter_movie_name">Enter movie name</string>
