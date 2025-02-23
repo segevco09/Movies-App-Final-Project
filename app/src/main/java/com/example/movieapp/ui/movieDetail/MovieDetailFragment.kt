@@ -74,7 +74,10 @@ class MovieDetailFragment : Fragment() {
         binding.titleTextView.text = movie.title
         binding.overviewTextView.text = movie.overview
         binding.releaseDateTextView.text = movie.releaseDate
-        binding.ratingTextView.text = "★ ${movie.voteAverage}"
+        binding.ratingTextView.text = getString(
+            R.string.rating_with_star,
+            getString(R.string.rating_format, movie.voteAverage)
+        )
 
         // Load poster image
         Glide.with(this)
