@@ -86,16 +86,18 @@
             android:visibility="gone"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
-            android:contentDescription="Edit Movie"
+            android:contentDescription="@string/edit_movie"
             app:tint="@color/light_gray" />
 
         <ImageButton
             android:id="@+id/favoriteButton"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/baseline_favorite_border_24"
             android:padding="8dp"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:contentDescription="@string/favorite_button_description"

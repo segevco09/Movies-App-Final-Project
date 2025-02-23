@@ -31,5 +31,6 @@
     <string name="title_cannot_be_empty">שם הסרט לא יכול להיות ריק</string>
     <string name="select_release_date">אנא בחר תאריך יציאת הסרט</string>
     <string name="rating_error_message">דירוג חייב להיות בין 0 ל-10</string>
+    <string name="poster">פוסטר</string>
 
 </resources>
