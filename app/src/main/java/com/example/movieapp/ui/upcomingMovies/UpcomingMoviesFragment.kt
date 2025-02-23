@@ -1,9 +1,7 @@
 package com.example.movieapp.ui.upcomingMovies
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,24 +16,25 @@ import com.example.movieapp.utils.autoCleared
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class UpcomingMoviesFragment : Fragment() {
+class UpcomingMoviesFragment : Fragment(R.layout.fragment_upcoming_movies) {
     private val viewModel: MovieViewModel by viewModels()
     private var adapter by autoCleared<MovieAdapter>()
+    private var currentSort: String = ""
 
     private var _binding: FragmentUpcomingMoviesBinding by autoCleared()
     private val binding get() = _binding
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUpcomingMoviesBinding.inflate(inflater, container, false)
-        return binding.root
+    companion object {
+        private const val KEY_CURRENT_SORT = "current_sort"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentUpcomingMoviesBinding.bind(view)
+
+        // Restore sort state or use default
+        currentSort = savedInstanceState?.getString(KEY_CURRENT_SORT) 
+            ?: getString(R.string.regular)
 
         adapter = MovieAdapter(
             onMovieClick = { movie ->
@@ -44,24 +43,33 @@ class UpcomingMoviesFragment : Fragment() {
                 )
             },
             onFavoriteClick = { movie ->
-                viewModel.updateFavorite(movie) // Toggle favorite status
+                viewModel.updateFavorite(movie)
             },
             onEditClick = { movie ->
-                viewModel.updateMovie(movie) // Edits will only persist if the movie is favorite
+                viewModel.updateMovie(movie)
             },
-            isFavoriteFragment = false // Editing is disabled here
+            isFavoriteFragment = false
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
-        viewModel.upcomingMovies.observe(viewLifecycleOwner) { resource ->
-            when (resource) {
+        viewModel.upcomingMovies.observe(viewLifecycleOwner) {
+            when (it) {
                 is Resource.Success -> {
-                    adapter.submitList(resource.data)
+                    if (!it.data.isNullOrEmpty()) {
+                        val sortedList = when (currentSort) {
+                            getString(R.string.high_rate) -> it.data.sortedByDescending { movie -> movie.voteAverage }
+                            getString(R.string.low_rate) -> it.data.sortedBy { movie -> movie.voteAverage }
+                            getString(R.string.latest) -> it.data.sortedByDescending { movie -> movie.releaseDate }
+                            getString(R.string.oldest) -> it.data.sortedBy { movie -> movie.releaseDate }
+                            else -> it.data
+                        }
+                        adapter.submitList(sortedList)
+                    }
                 }
                 is Resource.Error -> {
-                    Toast.makeText(context, resource.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
                 is Resource.Loading -> {
                     Toast.makeText(context, getString(R.string.loading), Toast.LENGTH_SHORT).show()
@@ -70,14 +78,9 @@ class UpcomingMoviesFragment : Fragment() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.fetchUpcomingMovies() // Triggers API fetch when returning
-    }
 
     fun filterMovies(query: String) {
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
-
         val filteredList = if (query.isEmpty()) {
             originalList
         } else {
@@ -89,6 +92,7 @@ class UpcomingMoviesFragment : Fragment() {
     }
 
     fun sortMovies(sortType: String) {
+        currentSort = sortType
         val originalList = viewModel.upcomingMovies.value?.data ?: emptyList()
         val sortedList = when (sortType) {
             getString(R.string.high_rate) -> originalList.sortedByDescending { it.voteAverage }
@@ -102,6 +106,17 @@ class UpcomingMoviesFragment : Fragment() {
         binding.recyclerView.post {
             binding.recyclerView.scrollToPosition(0)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchUpcomingMovies()
+    }
+
+    // Add this method to save state
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_CURRENT_SORT, currentSort)
     }
 
 }
